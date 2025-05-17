@@ -1,4 +1,4 @@
-import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, OneToMany, JoinColumn } from 'typeorm';
 import { LevelsCompetencyEntityOrm } from './levels-competency.entity.orm';
 import { EcoeCompetencyEntityOrm } from './ecoe-competency.entity.orm';
 
