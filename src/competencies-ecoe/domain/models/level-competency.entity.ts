@@ -1,10 +1,10 @@
 
-import { Competence } from './competence.entity';
+import { Competency } from './competency.entity';
 
-export class LevelCompetence {
+export class LevelCompetency {
   constructor(
     public readonly id: number,
-    public competence: Competence,
+    public competency: Competency,
     public level: 'inicial' | 'intermedio' | 'avanzado',
     public descriptor: string
   ) {}

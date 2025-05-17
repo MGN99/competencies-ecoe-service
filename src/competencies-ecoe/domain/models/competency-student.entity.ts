@@ -1,11 +1,11 @@
-import { EcoeCompetence } from './ecoe-competence.entity';
+import { EcoeCompetency } from './ecoe-competency.entity';
 import { EcoeStudent } from './ecoe-student.entity';
 
-export class CompetenceStudent {
+export class CompetencyStudent {
   constructor(
     public readonly id: number,
     public studentId: number,
-    public ecoeCompetence: EcoeCompetence,
+    public ecoeCompetency: EcoeCompetency,
     public ecoeStudent: EcoeStudent,
     public grade: number,
     public achievementLevel: string

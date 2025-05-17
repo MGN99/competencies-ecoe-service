@@ -1,5 +1,5 @@
 import { Ecoe } from './ecoe.entity';
-import { CompetenceStudent } from './competence-student.entity';
+import { CompetencyStudent } from './competency-student.entity';
 
 export class EcoeStudent {
   constructor(
@@ -8,6 +8,6 @@ export class EcoeStudent {
     public ecoe: Ecoe,
     public finalNote: number,
     public finalAchievementLevel: string,
-    public competenciesEvaluated: CompetenceStudent[] = []
+    public competenciesEvaluated: CompetencyStudent[] = []
   ) {}
 }

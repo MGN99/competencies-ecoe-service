@@ -1,10 +1,10 @@
 import { Ecoe } from './ecoe.entity';
-import { Competence } from './competence.entity';
+import { Competency } from './competency.entity';
 
-export class EcoeCompetence {
+export class EcoeCompetency {
   constructor(
     public readonly id: number,
     public ecoe: Ecoe,
-    public competence: Competence
+    public competency: Competency
   ) {}
 }
