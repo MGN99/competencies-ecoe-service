@@ -6,6 +6,7 @@ import { EcoeCompetencyEntityOrm } from "./entities/ecoe-competency.entity.orm";
 import { CompetencyEntityOrm } from "./entities/competency.entity.orm";
 import { LevelsCompetencyEntityOrm } from "./entities/levels-competency.entity.orm";
 import { StudentCompetencyEntity } from "./entities/student-competency.entity.orm";
+import { StudentCompetencyRepositoryImpl } from "./student-competency.repository";
 
 
 @Module({
@@ -18,7 +19,12 @@ import { StudentCompetencyEntity } from "./entities/student-competency.entity.or
         StudentCompetencyEntity,
     ])],
     controllers: [],
-    providers: [],
-    exports: []
+    providers: [
+        {
+            provide: 'StudentCompetencyRepository',
+            useClass: StudentCompetencyRepositoryImpl,
+        },
+    ],
+    exports: ['StudentCompetencyRepository']
 })
 export class TypeOrmPersistenceModule {}
