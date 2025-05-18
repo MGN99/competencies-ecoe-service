@@ -9,7 +9,7 @@ export class EcoeStudentEntityOrm {
     id: number;
 
     @Column()
-    student_id: number;
+    student_id: string;
 
     @ManyToOne(() => EcoeEntityOrm, ecoe => ecoe.students)
     @JoinColumn({ name: 'ecoe_id' })

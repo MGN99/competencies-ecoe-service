@@ -8,7 +8,7 @@ export class StudentCompetencyEntity {
     id: number;
 
     @Column()
-    student_id: number;
+    student_id: string;
 
     @ManyToOne(() => EcoeCompetencyEntityOrm)
     @JoinColumn({ name: 'ecoe_competency_id' })
