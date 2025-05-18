@@ -4,7 +4,7 @@ import { EcoeStudent } from './ecoe-student.entity';
 export class CompetencyStudent {
   constructor(
     public readonly id: number,
-    public studentId: number,
+    public studentId: string,
     public ecoeCompetency: EcoeCompetency,
     public ecoeStudent: EcoeStudent,
     public grade: number,
