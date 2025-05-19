@@ -10,7 +10,7 @@ async function bootstrap() {
         options: {
         urls: [process.env.RABBITMQ_URI || 'amqp://guest:guest@localhost:5672'],
         queue: 'competencies_ecoe_queue',
-        queueOptions: { durable: false },
+        queueOptions: { durable: true },
         },
     });
     
