@@ -2,7 +2,6 @@ import { Module } from "@nestjs/common";
 import { TypeOrmModule } from "@nestjs/typeorm";
 import { EcoeEntityOrm } from "./entities/ecoe.entity.orm";
 import { EcoeStudentEntityOrm } from "./entities/ecoe-student.entity.orm";
-import { EcoeCompetencyEntityOrm } from "./entities/ecoe-competency.entity.orm";
 import { CompetencyEntityOrm } from "./entities/competency.entity.orm";
 import { LevelsCompetencyEntityOrm } from "./entities/levels-competency.entity.orm";
 import { StudentCompetencyEntity } from "./entities/student-competency.entity.orm";
@@ -12,7 +11,6 @@ import { StudentCompetencyEntity } from "./entities/student-competency.entity.or
     imports: [TypeOrmModule.forFeature([
         EcoeEntityOrm,
         EcoeStudentEntityOrm,
-        EcoeCompetencyEntityOrm,
         CompetencyEntityOrm,
         LevelsCompetencyEntityOrm,
         StudentCompetencyEntity,
