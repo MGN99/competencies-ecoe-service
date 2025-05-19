@@ -4,15 +4,15 @@ import { CompetencyEntityOrm } from './competency.entity.orm';
 
 
 @Entity('student_competencies')
-export class StudentCompetencyEntity {
+export class StudentCompetencyEntityOrm {
     @PrimaryGeneratedColumn('increment')
     id: number;
 
-    @ManyToOne(() => EcoeStudentEntityOrm, es => es.competencies_evaluated)
+    @ManyToOne(() => EcoeStudentEntityOrm, ecoeStudent => ecoeStudent.competenciesEvaluated)
     @JoinColumn({ name: 'ecoe_student_id' })
     ecoeStudent: EcoeStudentEntityOrm;
 
-    @ManyToOne(() => CompetencyEntityOrm, c => c.competencies_evaluated)
+    @ManyToOne(() => CompetencyEntityOrm)
     @JoinColumn({ name: 'competency_id' })
     competency: CompetencyEntityOrm;
 
@@ -22,4 +22,3 @@ export class StudentCompetencyEntity {
     @Column()
     level_achievement: string;
 }
-
