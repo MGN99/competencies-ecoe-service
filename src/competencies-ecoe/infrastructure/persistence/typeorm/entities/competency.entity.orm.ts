@@ -16,6 +16,6 @@ export class CompetencyEntityOrm {
     @OneToMany(() => LevelsCompetencyEntityOrm, level => level.competency)
     levelsCompetence: LevelsCompetencyEntityOrm[];
 
-    @OneToMany(() => StudentCompetencyEntityOrm, sc => sc.competency)
-    competencies_evaluated: StudentCompetencyEntityOrm[];
+    //@OneToMany(() => StudentCompetencyEntityOrm, sc => sc.competency)
+    //competencies_evaluated: StudentCompetencyEntityOrm[];
 }
