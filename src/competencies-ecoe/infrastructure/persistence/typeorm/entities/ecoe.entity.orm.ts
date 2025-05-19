@@ -1,5 +1,4 @@
 import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
-import { EcoeCompetencyEntityOrm } from "./ecoe-competency.entity.orm";
 import { EcoeStudentEntityOrm } from "./ecoe-student.entity.orm";
 
 
@@ -9,13 +8,10 @@ export class EcoeEntityOrm {
     id: number;
 
     @Column()
-    semester: string;
+    semester: number;
 
     @Column()
     description: string;
-
-    @OneToMany(() => EcoeCompetencyEntityOrm, ecoeCompetency => ecoeCompetency.ecoe)
-    competencies: EcoeCompetencyEntityOrm[];
 
     @OneToMany(() => EcoeStudentEntityOrm, ecoeStudent => ecoeStudent.ecoe)
     students: EcoeStudentEntityOrm[];
