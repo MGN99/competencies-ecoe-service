@@ -9,7 +9,7 @@ export class EcoeStudentEntityOrm {
     id: number;
 
     @Column()
-    student_id: number;
+    student_id: string;
 
     @ManyToOne(() => EcoeEntityOrm, ecoe => ecoe.students)
     @JoinColumn({ name: 'ecoe_id' })
@@ -20,6 +20,9 @@ export class EcoeStudentEntityOrm {
 
     @Column()
     final_achievement_level: string;
+
+    @Column('numeric')
+    ecoe_year: number;
 
     @OneToMany(() => StudentCompetencyEntity, sc => sc.ecoeStudent)
     competencies_evaluated: StudentCompetencyEntity[];
