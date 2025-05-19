@@ -1,6 +1,6 @@
 import { Column, Entity, JoinColumn, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 import { EcoeEntityOrm } from "./ecoe.entity.orm";
-import { StudentCompetencyEntity } from "./student-competency.entity.orm";
+import { StudentCompetencyEntityOrm } from "./student-competency.entity.orm";
 
 
 @Entity('ecoe_student')
@@ -11,10 +11,6 @@ export class EcoeStudentEntityOrm {
     @Column()
     student_id: string;
 
-    @ManyToOne(() => EcoeEntityOrm, ecoe => ecoe.students)
-    @JoinColumn({ name: 'ecoe_id' })
-    ecoe: EcoeEntityOrm;
-
     @Column('numeric')
     final_note: number;
 
@@ -24,6 +20,13 @@ export class EcoeStudentEntityOrm {
     @Column('numeric')
     ecoe_year: number;
 
-    @OneToMany(() => StudentCompetencyEntity, sc => sc.ecoeStudent)
-    competencies_evaluated: StudentCompetencyEntity[];
+    @ManyToOne(() => EcoeEntityOrm, ecoe => ecoe.students)
+    @JoinColumn({ name: 'ecoe_id' })
+    ecoe: EcoeEntityOrm;
+
+    @OneToMany(() => StudentCompetencyEntityOrm, sc => sc.ecoeStudent, {
+        cascade: true,
+        eager: true,
+    })
+    competenciesEvaluated: StudentCompetencyEntityOrm[];
 }
