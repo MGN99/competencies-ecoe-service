@@ -1,6 +1,6 @@
 import { Entity, PrimaryGeneratedColumn, Column, OneToMany, JoinColumn } from 'typeorm';
 import { LevelsCompetencyEntityOrm } from './levels-competency.entity.orm';
-import { EcoeCompetencyEntityOrm } from './ecoe-competency.entity.orm';
+import { StudentCompetencyEntity } from './student-competency.entity.orm';
 
 @Entity('competencies')
 export class CompetencyEntityOrm {
@@ -10,9 +10,12 @@ export class CompetencyEntityOrm {
     @Column({ unique: true })
     name: string;
 
+    @Column()
+    description: string;
+
     @OneToMany(() => LevelsCompetencyEntityOrm, level => level.competency)
     levelsCompetence: LevelsCompetencyEntityOrm[];
 
-    @OneToMany(() => EcoeCompetencyEntityOrm, ecoeCompetency => ecoeCompetency.competency)
-    ecoes: EcoeCompetencyEntityOrm[];
+    @OneToMany(() => StudentCompetencyEntity, sc => sc.competency)
+    competencies_evaluated: StudentCompetencyEntity[];
 }
