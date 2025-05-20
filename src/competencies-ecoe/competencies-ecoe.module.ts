@@ -3,6 +3,7 @@ import { TypeOrmPersistenceModule } from "./infrastructure/persistence/typeorm/t
 import { CompetencieController } from "./infrastructure/controllers/competencie.controller";
 import { GetCompetenciesBySubjectUseCase } from "./application/use-cases/get-competencies-by-subject.use-case";
 import { GetStudentEcoeByYearUseCase } from "./application/use-cases/get-student-ecoe-by-year.use-case";
+import { GetStudentEcoeCompetenciesAvgByYearUseCase } from "./application/use-cases/get-student-ecoe-avg-by-year.use-case";
 
 
 @Module({
@@ -13,6 +14,7 @@ import { GetStudentEcoeByYearUseCase } from "./application/use-cases/get-student
     providers: [
         GetCompetenciesBySubjectUseCase,
         GetStudentEcoeByYearUseCase,
+        GetStudentEcoeCompetenciesAvgByYearUseCase
     ],
 })
 
