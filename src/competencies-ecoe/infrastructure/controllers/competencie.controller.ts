@@ -11,6 +11,7 @@ export class CompetencieController {
     constructor(
         private readonly getStudentEcoeByYearUseCase: GetStudentEcoeByYearUseCase,
         private readonly getCompetenciesBySubjectUseCase: GetCompetenciesBySubjectUseCase,
+        private readonly getStudentEcoeAvgByYearUseCase: GetStudentEcoeByYearUseCase,
     ) {}
 
     @MessagePattern(EcoeMessagePatterns.GET_STUDENT_ECOE_BY_YEAR)
@@ -23,6 +24,17 @@ export class CompetencieController {
             return studentEcoe;
         } catch (error) {
             throw new RpcException('Error getting student ecoe by year');
+        }
+    }
+
+    @MessagePattern(EcoeMessagePatterns.GET_STUDENT_ECOE_COMPETENCIES_AVG_BY_YEAR)
+    async getStudentEcoeAvgByYear(
+        @Payload() data: StudentEcoeByYearDto,
+    ) {
+        try{
+            return await this.getStudentEcoeAvgByYearUseCase.execute(data);
+        } catch (error) {
+            throw new RpcException('Error getting student ecoe avg by year');
         }
     }
 
