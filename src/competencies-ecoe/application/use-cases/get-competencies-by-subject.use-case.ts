@@ -1,15 +1,15 @@
 import { Injectable, Inject } from '@nestjs/common';
-import { StudentCompetencyRepository } from '../interfaces/student-competency.repository.interface';
+import { IStudentCompetencyRepositoryOutPort } from '../../domain/repositories/student-competency.repository.out.port';
 import { CompetenciesBySubjectDto } from '../dtos/competencies-by-subject.dto';
 
 @Injectable()
 export class GetCompetenciesBySubjectUseCase {
   constructor(
-    @Inject('StudentCompetencyRepository')
-    private readonly repository: StudentCompetencyRepository,
+    @Inject('IStudentCompetencyRepositoryOutPort')
+    private readonly repositoryStudentCompetency: IStudentCompetencyRepositoryOutPort,
   ) {}
 
   async execute(dto: CompetenciesBySubjectDto): Promise<any[]> {
-    return this.repository.findBySubject(dto.subjectId);
+    return this.repositoryStudentCompetency.findBySubject(dto.subjectId);
   }
 }
