@@ -1,5 +1,5 @@
 import { Injectable } from "@nestjs/common";
-import { IEcoeStudentRepositoryOutPort } from "src/competencies-ecoe/domain/repositories/ecoe-student-repository.out.port";
+import { IEcoeStudentRepositoryOutPort } from "src/competencies-ecoe/domain/repositories/ecoe-student.repository.out.port";
 import { EcoeStudentEntityOrm } from "../entities/ecoe-student.entity.orm";
 import { InjectRepository } from "@nestjs/typeorm";
 import { EcoeStudent } from "src/competencies-ecoe/domain/models/ecoe-student.entity";
