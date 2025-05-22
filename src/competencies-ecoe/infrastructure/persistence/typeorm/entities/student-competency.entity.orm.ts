@@ -16,7 +16,7 @@ export class StudentCompetencyEntityOrm {
     @JoinColumn({ name: 'competency_id' })
     competency: CompetencyEntityOrm;
 
-    @Column('numeric')
+    @Column('float')
     grade: number;
 
     @Column()
