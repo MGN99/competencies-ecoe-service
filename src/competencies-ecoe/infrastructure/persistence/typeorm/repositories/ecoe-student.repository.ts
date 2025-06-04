@@ -16,8 +16,8 @@ export class EcoeStudentRepositoryImpl implements IEcoeStudentRepositoryOutPort 
     async findByStudentIdAndEcoeYear(studentId: string, ecoeYear: number): Promise<EcoeStudent | null> {
         const ormEntity = await this.ormRepo.findOne({
             where: {
-            student_id: studentId,
-            ecoe_year: ecoeYear,
+                student_id: studentId,
+                ecoe_year: ecoeYear,
             },
             relations: ['ecoe', 'competenciesEvaluated', 'competenciesEvaluated.competency'],
         });
@@ -27,5 +27,15 @@ export class EcoeStudentRepositoryImpl implements IEcoeStudentRepositoryOutPort 
         }
 
         return EcoeStudentMapper.toDomain(ormEntity);
+    }
+
+    async findEcoeYearsByStudentId(studentId: string): Promise<number[]> {
+        const ecoeStudents = await this.ormRepo.find({
+            where: { student_id: studentId },
+            select: ['ecoe_year'],
+        });
+
+        const years = ecoeStudents.map(r => r.ecoe_year);
+        return Array.from(new Set(years)).sort((a, b) => a - b);
     }
 }
