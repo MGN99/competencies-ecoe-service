@@ -16,7 +16,7 @@ export class StudentCompetencyRepositoryImpl implements IStudentCompetencyReposi
     async findByEcoeStudentId(ecoeStudentId: number): Promise<StudentCompetency[]> {
         const studentCompetencies = await this.repo.find({
             where: {
-            ecoeStudent: { id: ecoeStudentId },
+                ecoeStudent: { id: ecoeStudentId },
             },
             relations: ['competency'],
         });
@@ -24,9 +24,9 @@ export class StudentCompetencyRepositoryImpl implements IStudentCompetencyReposi
         return studentCompetencies.map(StudentCompetencyMapper.toDomain);
     }
 
-
+    /*
     async findBySubject(subjectId: number): Promise<StudentCompetency[]> {
-        /*
+        
             return this.repo.find({
                 where: {
                 ecoeCompetency: {
@@ -41,7 +41,8 @@ export class StudentCompetencyRepositoryImpl implements IStudentCompetencyReposi
                 'ecoeStudent',
                 'ecoeStudent.ecoe',
                 ],
-        });*/
+        });
         return [];
     }
+    */
 }
