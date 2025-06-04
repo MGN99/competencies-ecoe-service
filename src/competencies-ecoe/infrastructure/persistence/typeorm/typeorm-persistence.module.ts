@@ -1,5 +1,7 @@
 import { Module } from "@nestjs/common";
 import { TypeOrmModule } from "@nestjs/typeorm";
+import { Ecoe } from "src/competencies-ecoe/domain/models/ecoe.entity";
+import { EcoeRepository } from "./repositories/ecoe.repository";
 import { EcoeEntityOrm } from "./entities/ecoe.entity.orm";
 import { EcoeStudentEntityOrm } from "./entities/ecoe-student.entity.orm";
 import { CompetencyEntityOrm } from "./entities/competency.entity.orm";
@@ -12,13 +14,16 @@ import { CompetencyRepository } from "./repositories/competency.repository";
 
 
 @Module({
-    imports: [TypeOrmModule.forFeature([
-        EcoeEntityOrm,
-        EcoeStudentEntityOrm,
-        CompetencyEntityOrm,
-        LevelCompetencyEntityOrm,
-        StudentCompetencyEntityOrm,
-    ])],
+    imports: [
+        TypeOrmModule.forFeature([
+            Ecoe,
+            EcoeEntityOrm,
+            EcoeStudentEntityOrm,
+            CompetencyEntityOrm,
+            LevelCompetencyEntityOrm,
+            StudentCompetencyEntityOrm,
+        ]),
+    ],
     controllers: [],
     providers: [
         {
@@ -36,13 +41,19 @@ import { CompetencyRepository } from "./repositories/competency.repository";
         {
             provide: 'ICompetencyRepositoryOutPort',
             useClass: CompetencyRepository,
-        }
+        },
+        {
+            provide: 'EcoeRepositoryOutPort',
+            useClass: EcoeRepository,
+        },
+        EcoeRepository,
     ],
     exports: [
         'IStudentCompetencyRepositoryOutPort',
         'IEcoeStudentRepositoryOutPort',
         'LevelCompetencyRepositoryOutPort',
         'ICompetencyRepositoryOutPort',
+        'EcoeRepositoryOutPort',
     ]
 })
 export class TypeOrmPersistenceModule {}
