@@ -22,4 +22,13 @@ export class LevelCompetencyRepository implements LevelCompetencyRepositoryOutPo
 
         return LevelsCompetencyMapper.toDomainList(entities);
     }
+
+    async findByCompetencyId(competencyId: number): Promise<LevelCompetency[]> {
+        const entities = await this.repo.find({
+            where: { competency: { id: competencyId } },
+            relations: ['competency'],
+        });
+
+        return LevelsCompetencyMapper.toDomainList(entities);
+    }
 }
