@@ -4,6 +4,9 @@ import { CompetencieController } from "./infrastructure/controllers/competencie.
 import { GetStudentEcoeByYearUseCase } from "./application/use-cases/get-student-ecoe-by-year.use-case";
 import { GetStudentEcoeCompetenciesAvgByYearUseCase } from "./application/use-cases/get-student-ecoe-avg-by-year.use-case";
 import { GetCompetenciesLevelByIdsUseCase } from "./application/use-cases/get-competencies-level-by-ids.use-case";
+import { GetStudentEcoeYearsUseCase } from "./application/use-cases/get-student-ecoe-years.use-case";
+import { GetLevelCompetencyIdsByCompetencyIdUseCase } from "./application/use-cases/get-level-competency-ids-by-competency-id.use-case";
+import { GetCompetencyByIdUseCase } from "./application/use-cases/get-competency-by-id.use-case";
 
 
 @Module({
@@ -14,7 +17,10 @@ import { GetCompetenciesLevelByIdsUseCase } from "./application/use-cases/get-co
     providers: [
         GetCompetenciesLevelByIdsUseCase,
         GetStudentEcoeByYearUseCase,
-        GetStudentEcoeCompetenciesAvgByYearUseCase
+        GetStudentEcoeCompetenciesAvgByYearUseCase,
+        GetStudentEcoeYearsUseCase,
+        GetLevelCompetencyIdsByCompetencyIdUseCase,
+        GetCompetencyByIdUseCase,
     ],
 })
 
