@@ -43,7 +43,7 @@ import { CompetencyRepository } from "./repositories/competency.repository";
             useClass: CompetencyRepository,
         },
         {
-            provide: 'EcoeRepositoryOutPort',
+            provide: 'IEcoeRepositoryOutPort',
             useClass: EcoeRepository,
         },
         EcoeRepository,
@@ -53,7 +53,7 @@ import { CompetencyRepository } from "./repositories/competency.repository";
         'IEcoeStudentRepositoryOutPort',
         'LevelCompetencyRepositoryOutPort',
         'ICompetencyRepositoryOutPort',
-        'EcoeRepositoryOutPort',
+        'IEcoeRepositoryOutPort',
     ]
 })
 export class TypeOrmPersistenceModule {}
