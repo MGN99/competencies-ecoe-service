@@ -11,7 +11,7 @@ import { EcoeEntityOrm } from "./ecoe.entity.orm";
 import { StudentCompetencyEntityOrm } from "./student-competency.entity.orm";
 
 @Entity('ecoe_student')
-//@Unique(['student_id', 'ecoe_year'])
+@Unique(['student_id', 'ecoe_year'])
 export class EcoeStudentEntityOrm {
   @PrimaryGeneratedColumn('increment')
   id: number;
