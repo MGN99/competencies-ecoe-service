@@ -38,4 +38,27 @@ export class EcoeStudentRepositoryImpl implements IEcoeStudentRepositoryOutPort 
         const years = ecoeStudents.map(r => r.ecoe_year);
         return Array.from(new Set(years)).sort((a, b) => a - b);
     }
+
+    async addStudent(studentId: string, ecoeId: number, year: number): Promise<void> {
+        const newEntity = this.ormRepo.create({
+            student_id: studentId,
+            final_note: 0,
+            final_achievement_level: 'N/A',
+            ecoe_year: year,
+            ecoe: { id: ecoeId },
+        });
+
+        await this.ormRepo.save(newEntity);
+    }
+
+    async existsStudentInEcoeYear(studentId: string, year: number): Promise<boolean> {
+        const count = await this.ormRepo.count({
+            where: {
+                student_id: studentId,
+                ecoe_year: year,
+            },
+        });
+
+        return count > 0;
+    }
 }
