@@ -61,4 +61,13 @@ export class EcoeStudentRepositoryImpl implements IEcoeStudentRepositoryOutPort 
 
         return count > 0;
     }
+
+    async findStudentsByEcoeId(ecoeId: number): Promise<EcoeStudent[]> {
+        const ecoeStudents = await this.ormRepo.find({
+            where: { ecoe: { id: ecoeId } },
+            relations: ['ecoe', 'competenciesEvaluated', 'competenciesEvaluated.competency'],
+        });
+
+        return ecoeStudents.map(EcoeStudentMapper.toDomain);
+    }
 }
