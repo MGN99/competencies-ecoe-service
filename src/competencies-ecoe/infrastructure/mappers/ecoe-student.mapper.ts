@@ -4,6 +4,7 @@ import { EcoeStudent } from "src/competencies-ecoe/domain/models/ecoe-student.en
 import { EcoeStudentEntityOrm } from "../persistence/typeorm/entities/ecoe-student.entity.orm";
 import { Ecoe } from "src/competencies-ecoe/domain/models/ecoe.entity";
 import { StudentCompetencyMapper } from "./student-competency.mapper";
+import { EcoeMapper } from "./ecoe.mapper";
 
 
 export class EcoeStudentMapper {
