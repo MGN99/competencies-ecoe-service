@@ -10,4 +10,6 @@ export interface IEcoeStudentRepositoryOutPort {
     addStudent(studentId: string, ecoeId: number, year: number): Promise<void>;
 
     existsStudentInEcoeYear(studentId: string, ecoeYear: number): Promise<boolean>;
+
+    findStudentsByEcoeId(ecoeId: number): Promise<EcoeStudent[]>;
 }
