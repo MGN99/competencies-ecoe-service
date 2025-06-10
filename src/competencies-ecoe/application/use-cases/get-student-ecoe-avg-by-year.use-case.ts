@@ -9,12 +9,12 @@ export class GetStudentEcoeCompetenciesAvgByYearUseCase {
         private readonly repositoryEcoeStudent: IEcoeStudentRepositoryOutPort
     ) {}
     async execute(dto: StudentEcoeCompetenciesAvgByYearDto): Promise<{ average: number }> {
-        const ecoeStudent = await this.repositoryEcoeStudent.findByStudentIdAndEcoeYear(dto.studentId, dto.ecoeYear);
-        if (!ecoeStudent || !ecoeStudent.competenciesEvaluated || ecoeStudent.competenciesEvaluated.length === 0) {
+        const ecoeStudent = await this.repositoryEcoeStudent.findOneByStudentAndYear(dto.studentId, dto.ecoeYear);
+        if (!ecoeStudent || !ecoeStudent.levelCompetenciesEvaluated || ecoeStudent.levelCompetenciesEvaluated.length === 0) {
             return { average: 0 };
         }
-        const sum = ecoeStudent.competenciesEvaluated.reduce((acc, competency) => acc + (competency.grade ?? 0), 0);
-        const average = sum / ecoeStudent.competenciesEvaluated.length;
+        const sum = ecoeStudent.levelCompetenciesEvaluated.reduce((acc, competency) => acc + (competency.grade ?? 0), 0);
+        const average = sum / ecoeStudent.levelCompetenciesEvaluated.length;
         return { average };
     }
 }

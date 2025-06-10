@@ -9,6 +9,6 @@ export class GetAvailableEcoesUseCase {
   ) {}
 
   async execute() {
-    return this.ecoeRepository.findAvailable();
+    return this.ecoeRepository.findAll();
   }
 }

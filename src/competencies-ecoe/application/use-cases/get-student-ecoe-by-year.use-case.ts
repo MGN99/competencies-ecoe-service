@@ -10,7 +10,7 @@ export class GetStudentEcoeByYearUseCase {
     ) {}
 
     async execute(dto: StudentEcoeByYearDto): Promise<any> {
-        const ecoeStudent = await this.repositoryEcoeStudent.findByStudentIdAndEcoeYear(dto.studentId, dto.ecoeYear);
+        const ecoeStudent = await this.repositoryEcoeStudent.findOneByStudentAndYear(dto.studentId, dto.ecoeYear);
 
         if (!ecoeStudent) {
             return {};
