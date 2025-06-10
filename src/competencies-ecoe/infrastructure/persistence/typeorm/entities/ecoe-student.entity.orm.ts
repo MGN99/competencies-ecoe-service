@@ -7,8 +7,8 @@ import {
   PrimaryGeneratedColumn,
   Unique,
 } from "typeorm";
-import { EcoeEntityOrm } from "./ecoe.entity.orm";
 import { StudentCompetencyEntityOrm } from "./student-competency.entity.orm";
+import { EcoeInstanceEntityOrm } from "./ecoe-instance.entity.orm";
 
 @Entity('ecoe_student')
 @Unique(['student_id', 'ecoe_year'])
@@ -16,25 +16,23 @@ export class EcoeStudentEntityOrm {
   @PrimaryGeneratedColumn('increment')
   id: number;
 
-  @Column()
-  student_id: string;
+  @Column({ name: 'ecoe_instance_id' })
+  studentId: string;
 
-  @Column('numeric')
-  final_note: number;
+  @Column('numeric', { name: 'final_note' })
+  finalNote: number;
 
-  @Column()
-  final_achievement_level: string;
+  @Column({ name: 'final_archievement_level' })
+  finalArchievementLevel: string;
 
-  @Column('numeric')
-  ecoe_year: number;
-
-  @ManyToOne(() => EcoeEntityOrm, ecoe => ecoe.students)
-  @JoinColumn({ name: 'ecoe_id' })
-  ecoe: EcoeEntityOrm;
+  @ManyToOne(() => EcoeInstanceEntityOrm, ecoeInstance => ecoeInstance.students)
+  @JoinColumn({ name: 'ecoe_instance_id' })
+  ecoeInstance: EcoeInstanceEntityOrm;
 
   @OneToMany(() => StudentCompetencyEntityOrm, sc => sc.ecoeStudent, {
     cascade: true,
     eager: true,
   })
+  @JoinColumn({ name: 'competencies_evaluated' })
   competenciesEvaluated: StudentCompetencyEntityOrm[];
 }
