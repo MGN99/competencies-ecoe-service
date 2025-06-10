@@ -3,11 +3,11 @@ import { Ecoe } from "../models/ecoe.entity";
 
 
 export interface IEcoeStudentRepositoryOutPort {
-    findByStudentIdAndEcoeYear(studentId: string, ecoeYear: number): Promise<EcoeStudent | null>;
+    findOneByStudentAndYear(studentId: string, ecoeYear: number): Promise<EcoeStudent | null>;
 
     findEcoeYearsByStudentId(studentId: string): Promise<number[]>;
 
-    addStudent(studentId: string, ecoeId: number, year: number): Promise<void>;
+    addEcoeInstanceStudent(ecoeId: number, studentId: string): Promise<void>;
 
     existsStudentInEcoeYear(studentId: string, ecoeYear: number): Promise<boolean>;
 
