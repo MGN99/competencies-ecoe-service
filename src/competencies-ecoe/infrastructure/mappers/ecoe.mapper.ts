@@ -5,11 +5,12 @@ export class EcoeMapper {
     static toDomain(entity: EcoeEntityOrm): Ecoe {
         return {
             id: entity.id,
-            semester: entity.semester,
+            name: entity.name,
             description: entity.description,
         };
     }
 
+    /*
     static toDomainPartial(entity: Pick<EcoeEntityOrm, 'id' | 'semester' | 'description'>): Pick<Ecoe, 'id' | 'semester' | 'description'> {
         return {
             id: entity.id,
@@ -17,4 +18,5 @@ export class EcoeMapper {
             description: entity.description,
         };
     }
+    */
 }
