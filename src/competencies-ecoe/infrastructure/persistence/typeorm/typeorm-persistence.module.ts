@@ -7,17 +7,18 @@ import { EcoeStudentEntityOrm } from "./entities/ecoe-student.entity.orm";
 import { CompetencyEntityOrm } from "./entities/competency.entity.orm";
 import { LevelCompetencyEntityOrm } from "./entities/level-competency.entity.orm";
 import { StudentCompetencyEntityOrm } from "./entities/student-competency.entity.orm";
-import { StudentCompetencyRepositoryImpl } from "./repositories/student-competency.repository";
+import { StudentLevelCompetencyRepositoryImpl } from "./repositories/student-level-competency.repository";
 import { EcoeStudentRepositoryImpl } from "./repositories/ecoe-student.repository";
 import { LevelCompetencyRepository } from "./repositories/level-competency.repository";
 import { CompetencyRepository } from "./repositories/competency.repository";
+import { EcoeInstanceEntityOrm } from "./entities/ecoe-instance.entity.orm";
 
 
 @Module({
     imports: [
         TypeOrmModule.forFeature([
-            Ecoe,
             EcoeEntityOrm,
+            EcoeInstanceEntityOrm,
             EcoeStudentEntityOrm,
             CompetencyEntityOrm,
             LevelCompetencyEntityOrm,
@@ -27,8 +28,8 @@ import { CompetencyRepository } from "./repositories/competency.repository";
     controllers: [],
     providers: [
         {
-            provide: 'IStudentCompetencyRepositoryOutPort',
-            useClass: StudentCompetencyRepositoryImpl,
+            provide: 'IStudentLevelCompetencyRepositoryOutPort',
+            useClass: StudentLevelCompetencyRepositoryImpl,
         },
         {
             provide: 'IEcoeStudentRepositoryOutPort',
@@ -49,7 +50,7 @@ import { CompetencyRepository } from "./repositories/competency.repository";
         EcoeRepository,
     ],
     exports: [
-        'IStudentCompetencyRepositoryOutPort',
+        'IStudentLevelCompetencyRepositoryOutPort',
         'IEcoeStudentRepositoryOutPort',
         'LevelCompetencyRepositoryOutPort',
         'ICompetencyRepositoryOutPort',
