@@ -10,9 +10,11 @@ import { GetCompetencyByIdUseCase } from "./application/use-cases/get-competency
 import { EcoesController } from "./infrastructure/controllers/ecoes.controller";
 import { AddStudentToEcoeUseCase } from "./application/use-cases/add-student-to-ecoe.use-case";
 import { GetStudentsByEcoeIdUseCase } from "./application/use-cases/get-students-by-ecoe-id.use-case";
-import { GetEcoesByCycleUseCase } from "./application/use-cases/get-ecoes-by-level.use-case";
+import { GetEcoesByCycleUseCase } from "./application/use-cases/get-ecoes-by-cycle.use-case";
 import { GetCompetenciesUseCase } from "./application/use-cases/get-competencies.use-case";
 import { CompetenciesController } from "./infrastructure/controllers/competencies.controller";
+import { AddEcoeUseCase } from "./application/use-cases/add-ecoe.use-case";
+import { GetEcoesByCycleCurrentYearUseCase } from "./application/use-cases/get-ecoes-by-cycle-current-year";
 
 
 @Module({
@@ -31,6 +33,8 @@ import { CompetenciesController } from "./infrastructure/controllers/competencie
         GetEcoesByCycleUseCase,
         GetStudentsByEcoeIdUseCase,
         GetCompetenciesUseCase,
+        AddEcoeUseCase,
+        GetEcoesByCycleCurrentYearUseCase,
     ],
 })
 

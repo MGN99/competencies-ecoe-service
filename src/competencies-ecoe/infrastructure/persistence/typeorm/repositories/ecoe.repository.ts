@@ -23,8 +23,11 @@ export class EcoeRepository implements IEcoeRepositoryOutPort {
         return entity ? EcoeMapper.toDomain(entity) : null;
     }
 
-    async findOneBySemesterAndYear(semester: number, year: number): Promise<Ecoe | null> {
-        const entity = await this.repo.findOne({ where: { semester, year } });
+    async findOneByCycleSemesterYear(
+        cycle: 'BASICO' | 'PROFESIONAL' | 'FINAL', 
+        semester: number, 
+        year: number): Promise<Ecoe | null> {
+        const entity = await this.repo.findOne({ where: { cycle, semester, year } });
         return entity ? EcoeMapper.toDomain(entity) : null;
     }
 
@@ -36,6 +39,11 @@ export class EcoeRepository implements IEcoeRepositoryOutPort {
 
     async findByCycle(cycle: 'BASICO' | 'PROFESIONAL' | 'FINAL'): Promise<Ecoe[]> {
         const entities = await this.repo.find({ where: { cycle } });
+        return entities.map(EcoeMapper.toDomain);
+    }
+
+    async findByCycleYear(cycle: 'BASICO' | 'PROFESIONAL' | 'FINAL', year: number): Promise<Ecoe[]> {
+        const entities = await this.repo.find({ where: { cycle, year } });
         return entities.map(EcoeMapper.toDomain);
     }
 }

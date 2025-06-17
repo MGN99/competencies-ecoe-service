@@ -6,8 +6,12 @@ import { GetStudentsByEcoeIdUseCase } from 'src/competencies-ecoe/application/us
 import { GetStudentsByEcoeIdDto } from '../dtos/get-students-by-ecoe-id.dto';
 import { EcoeNotFoundError } from 'src/competencies-ecoe/domain/errors/ecoe-not-found.error';
 import { EcoeStudentMapper } from '../mappers/ecoe-student.mapper';
-import { GetEcoesByCycleUseCase } from 'src/competencies-ecoe/application/use-cases/get-ecoes-by-level.use-case';
+import { GetEcoesByCycleUseCase } from 'src/competencies-ecoe/application/use-cases/get-ecoes-by-cycle.use-case';
 import { GetEcoesByCycleDto } from '../dtos/get-ecoes-by-cycle.dto';
+import { EcoeAlreadyExistsError } from 'src/competencies-ecoe/domain/errors/ecoe-already-exists.error';
+import { AddEcoeUseCase } from 'src/competencies-ecoe/application/use-cases/add-ecoe.use-case';
+import { AddEcoeDto } from '../dtos/add-ecoe.dto';
+import { GetEcoesByCycleCurrentYearUseCase } from 'src/competencies-ecoe/application/use-cases/get-ecoes-by-cycle-current-year';
 //import { EcoesLevelNotFoundError } from 'src/competencies-ecoe/domain/errors/ecoes-level-not-found.error';
 //import { EcoeIdDto } from '../dtos/ecoe-id.dto';
 
@@ -18,7 +22,40 @@ export class EcoesController {
         private readonly addStudentToEcoeUseCase: AddStudentToEcoeUseCase,
         private readonly getStudentsByEcoeIdUseCase: GetStudentsByEcoeIdUseCase,
         private readonly getEcoesByCycleUseCase: GetEcoesByCycleUseCase,
+        private readonly addEcoeUseCase: AddEcoeUseCase,
+        private readonly getEcoesByCycleCurrentYearUseCase: GetEcoesByCycleCurrentYearUseCase,
     ) { }
+
+
+    @Get('by-cycle-current-year/:cycle')
+    async getEcoesByCycleCurrentYear(@Param() data: GetEcoesByCycleDto): Promise<any> {
+        try {
+            const ecoes = await this.getEcoesByCycleCurrentYearUseCase.execute(data.cycle);
+            console.log(ecoes);
+            return ecoes;
+        } catch (error) {
+            throw error;
+        }
+    }
+
+
+    @Post('add-ecoe')
+    @HttpCode(201)
+    async addEcoe(@Body() data: AddEcoeDto) {
+        try {
+            console.log('Adding ECOE with data:', data);
+            const newEcoe = await this.addEcoeUseCase.execute(data);
+            console.log('New ECOE created:', newEcoe);
+            return { message: 'ECOE added successfully', ecoe: newEcoe };
+
+        }
+        catch (error) {
+            if (error instanceof EcoeAlreadyExistsError) {
+                throw new ConflictException(error.message);
+            }
+            throw error;
+        }
+    }
 
     @Post('add-student-to-ecoe')
     @HttpCode(201)
@@ -42,7 +79,9 @@ export class EcoesController {
     @Get('by-cycle/:cycle')
     async getEcoesByCycle(@Param() data: GetEcoesByCycleDto) {
         try {
+            console.log('Fetching ECOEs for cycle:', data.cycle);
             const ecoes = await this.getEcoesByCycleUseCase.execute(data.cycle);
+            console.log(ecoes);
             return ecoes;
         }
         catch (error) {

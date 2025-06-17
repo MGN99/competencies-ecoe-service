@@ -10,18 +10,22 @@ export class AddEcoeUseCase {
         private readonly ecoeRepository: IEcoeRepositoryOutPort,
     ) { }
 
+
+    //ecoe -> BASIC 2022, 2
+    //ecoe -> INTERMEDIO 2022, 2
     async execute(data: AddEcoeCommand): Promise<Ecoe> {
-        const ecoe = await this.ecoeRepository.findOneBySemesterAndYear(
+        const ecoe = await this.ecoeRepository.findOneByCycleSemesterYear(
+            data.cycle,
             data.semester,
             data.year,
         );
 
         if (ecoe) {
-            throw new EcoeAlreadyExistsError(data.year, data.semester);
+            throw new EcoeAlreadyExistsError(data.cycle, data.semester, data.year);
         }
 
+        console.log('Creating new ECOE with data:', data);
         const createEcoe = new Ecoe(
-            undefined,
             data.name,
             data.cycle,
             data.semester,

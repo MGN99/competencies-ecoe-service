@@ -5,14 +5,14 @@ import { Competency } from 'src/competencies-ecoe/domain/models/competency.entit
 export class LevelsCompetencyMapper {
   static toDomain(entity: LevelCompetencyEntityOrm): LevelCompetency {
     return new LevelCompetency(
-      entity.id,
       new Competency(
         entity.competency.id,
         entity.competency.name,
         entity.competency.description
       ),
       entity.level,
-      entity.descriptor
+      entity.descriptor,
+      entity.id,
     );
   }
   static toDomainList(entities: LevelCompetencyEntityOrm[]): LevelCompetency[] {

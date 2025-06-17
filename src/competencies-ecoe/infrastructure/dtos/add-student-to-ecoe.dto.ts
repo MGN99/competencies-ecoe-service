@@ -1,7 +1,8 @@
 import { Type } from "class-transformer";
-import { IsInt, IsNotEmpty, IsString, Max, Min } from "class-validator";
+import { IsInt, IsNotEmpty, IsString, IsUUID, Max, Min } from "class-validator";
 
 export class AddStudentToEcoeDto {
+    @IsUUID()
     @IsNotEmpty()
     @IsString()
     studentId: string;

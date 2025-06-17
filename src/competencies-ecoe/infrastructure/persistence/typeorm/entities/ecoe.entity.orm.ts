@@ -1,7 +1,7 @@
 import { Column, Entity, OneToMany, PrimaryGeneratedColumn, Index } from "typeorm";
 import { EcoeStudentEntityOrm } from "./ecoe-student.entity.orm";
 
-@Index(['year', 'semester'], { unique: true })
+@Index(['cycle', 'year', 'semester'], { unique: true })
 @Entity('ecoes')
 export class EcoeEntityOrm {
     @PrimaryGeneratedColumn()

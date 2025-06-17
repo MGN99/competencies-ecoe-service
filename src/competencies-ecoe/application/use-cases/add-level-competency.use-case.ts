@@ -22,7 +22,6 @@ export class AddLevelCompetencyUseCase {
         }
 
         const levelCompetency = new LevelCompetency(
-            undefined,
             competency,
             levelCompetencyCommand.level,
             levelCompetencyCommand.description,
