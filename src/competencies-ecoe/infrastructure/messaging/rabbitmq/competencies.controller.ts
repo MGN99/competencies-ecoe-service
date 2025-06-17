@@ -1,23 +1,23 @@
 import { Controller } from '@nestjs/common';
 import { MessagePattern, Payload, RpcException } from '@nestjs/microservices';
-import { GetStudentEcoeByYearUseCase } from '../../application/use-cases/get-student-ecoe-by-year.use-case';
+import { GetStudentEcoeByStudentIdAndEcoeIdUseCase } from '../../../application/use-cases/get-student-ecoe-by-student-id-and-ecoe-id.use-case';
 import { StudentEcoeByYearDto } from 'src/competencies-ecoe/application/dtos/student-ecoe-by-year.dto';
-import { EcoeMessagePatterns } from '../constants/ecoe-patterns.constant';
+import { EcoeMessagePatterns } from '../../constants/ecoe-patterns.constant';
 import { CompetenciesLevelByIdsDto } from 'src/competencies-ecoe/application/dtos/competencies-level-by-ids.dto';
 import { GetCompetenciesLevelByIdsUseCase } from 'src/competencies-ecoe/application/use-cases/get-competencies-level-by-ids.use-case';
-import { GetStudentEcoeCompetenciesAvgByYearUseCase } from 'src/competencies-ecoe/application/use-cases/get-student-ecoe-avg-by-year.use-case';
+import { GetStudentEcoeCompetenciesAvgByEcoeIdUseCase } from 'src/competencies-ecoe/application/use-cases/get-student-ecoe-avg-by-ecoe-id.use-case';
 import { StudentDto } from 'src/competencies-ecoe/application/dtos/student.dto';
 import { GetStudentEcoeYearsUseCase } from 'src/competencies-ecoe/application/use-cases/get-student-ecoe-years.use-case';
 import { GetLevelCompetencyIdsByCompetencyIdUseCase } from 'src/competencies-ecoe/application/use-cases/get-level-competency-ids-by-competency-id.use-case';
 import { GetCompetencyByIdUseCase } from 'src/competencies-ecoe/application/use-cases/get-competency-by-id.use-case';
 
 
-@Controller('competencies')
-export class CompetencieController {
+@Controller()
+export class CompetenciesMessageController  {
     constructor(
-        private readonly getStudentEcoeByYearUseCase: GetStudentEcoeByYearUseCase,
+        private readonly getStudentEcoeByStudentIdAndEcoeIdUseCase: GetStudentEcoeByStudentIdAndEcoeIdUseCase,
         private readonly getCompetenciesLevelByIdsUseCase: GetCompetenciesLevelByIdsUseCase,
-        private readonly getStudentEcoeAvgByYearUseCase: GetStudentEcoeCompetenciesAvgByYearUseCase,
+        private readonly getStudentEcoeCompetenciesAvgByEcoeIdUseCase: GetStudentEcoeCompetenciesAvgByEcoeIdUseCase,
         private readonly getStudentEcoeYearsUseCase: GetStudentEcoeYearsUseCase,
         private readonly getLevelCompetencyIdsByCompetencyIdUseCase: GetLevelCompetencyIdsByCompetencyIdUseCase,
         private readonly getCompetencyByIdUseCase: GetCompetencyByIdUseCase,
@@ -35,27 +35,27 @@ export class CompetencieController {
         }
     }
 
-    @MessagePattern(EcoeMessagePatterns.GET_STUDENT_ECOE_BY_YEAR)
-    async getStudentEcoeByYear(
+    @MessagePattern(EcoeMessagePatterns.GET_STUDENT_ECOE_BY_ID)
+    async getStudentEcoeById(
         @Payload() data: StudentEcoeByYearDto,
     ) {
         try {
-            const studentEcoe = await this.getStudentEcoeByYearUseCase.execute(data);
+            const studentEcoe = await this.getStudentEcoeByStudentIdAndEcoeIdUseCase.execute(data);
             console.log(studentEcoe);
             return studentEcoe;
         } catch (error) {
-            throw new RpcException('Error getting student ecoe by year');
+            throw new RpcException('Error getting student ecoe');
         }
     }
 
-    @MessagePattern(EcoeMessagePatterns.GET_STUDENT_ECOE_COMPETENCIES_AVG_BY_YEAR)
-    async getStudentEcoeAvgByYear(
+    @MessagePattern(EcoeMessagePatterns.GET_STUDENT_ECOE_COMPETENCIES_AVG_BY_ECOE_ID)
+    async getStudentEcoeAvgByEcoeId(
         @Payload() data: StudentEcoeByYearDto,
     ) {
         try{
-            return await this.getStudentEcoeAvgByYearUseCase.execute(data);
+            return await this.getStudentEcoeCompetenciesAvgByEcoeIdUseCase.execute(data);
         } catch (error) {
-            throw new RpcException('Error getting student ecoe avg by year');
+            throw new RpcException('Error getting student ecoe avg by id');
         }
     }
 

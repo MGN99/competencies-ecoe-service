@@ -9,7 +9,7 @@ export class GetStudentEcoeYearsUseCase {
     ) {}
 
     async execute(studentId: string): Promise<number[]> {
-        const years = await this.ecoeStudentRepo.findEcoeYearsByStudentId(studentId);
+        const years = await this.ecoeStudentRepo.findYearsByStudentId(studentId);
         return years;
     }
 }

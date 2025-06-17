@@ -4,20 +4,21 @@ import { EcoeStudent } from "src/competencies-ecoe/domain/models/ecoe-student.en
 import { IEcoeStudentRepositoryOutPort } from "src/competencies-ecoe/domain/repositories/ecoe-student.repository.out.port";
 import { IEcoeRepositoryOutPort } from "src/competencies-ecoe/domain/repositories/ecoe.repository.out.port";
 
-export class GetEcoeStudentsUseCase {
+export class GetStudentsByEcoeIdUseCase {
     constructor(
-        @Inject('IEcoeStudentRepositoryOutPort')
-        private readonly ecoeStudentRepository: IEcoeStudentRepositoryOutPort,
         @Inject('IEcoeRepositoryOutPort')
         private readonly ecoeRepository: IEcoeRepositoryOutPort,
+
+        @Inject('IEcoeStudentRepositoryOutPort')
+        private readonly ecoeStudentRepository: IEcoeStudentRepositoryOutPort,
     ) {}
 
     async execute(ecoeId: number): Promise<EcoeStudent[]> {
-        const ecoe = await this.ecoeRepository.findById(ecoeId);
-        if (!ecoe) {
+        const ecoeStudents = await this.ecoeStudentRepository.findStudentsByEcoeId(ecoeId);
+        if (!ecoeStudents) {
             throw new EcoeNotFoundError(ecoeId);
         }
 
-        return this.ecoeStudentRepository.findStudentsByEcoeId(ecoeId);
+        return ecoeStudents;        
     }
 }

@@ -11,6 +11,6 @@ export class GetCompetencyByIdUseCase {
     ) {}
 
     async execute(id: number): Promise<Competency | null> {
-        return this.competencyRepository.findById(id);
+        return this.competencyRepository.findOneById(id);
     }
 }

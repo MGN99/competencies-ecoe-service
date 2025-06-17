@@ -1,6 +1,6 @@
 import { StudentLevelCompetency } from "src/competencies-ecoe/domain/models/student-level-competency.entity";
 import { StudentCompetencyEntityOrm } from "../persistence/typeorm/entities/student-competency.entity.orm";
-import { Competency } from "src/competencies-ecoe/domain/models/competency.entity";
+//import { Competency } from "src/competencies-ecoe/domain/models/competency.entity";
 import { EcoeStudentMapper } from "./ecoe-student.mapper";
 import { LevelsCompetencyMapper } from "./levels-competency.mapper";
 
@@ -14,5 +14,15 @@ export class StudentCompetencyMapper {
       EcoeStudentMapper.toDomain(entity.ecoeStudent),
       LevelsCompetencyMapper.toDomain(entity.levelCompetency),
     );
+  }
+
+  static toEntity(domain: StudentLevelCompetency): StudentCompetencyEntityOrm {
+    return {
+      id: domain.id,
+      grade: domain.grade,
+      levelAchievement: domain.levelAchievement,
+      ecoeStudent: EcoeStudentMapper.toEntity(domain.ecoeStudent),
+      levelCompetency: LevelsCompetencyMapper.toEntity(domain.levelCompetency),
+    };
   }
 }

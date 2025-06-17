@@ -15,8 +15,20 @@ export class LevelsCompetencyMapper {
       entity.descriptor
     );
   }
-
   static toDomainList(entities: LevelCompetencyEntityOrm[]): LevelCompetency[] {
     return entities.map(this.toDomain);
+  }
+
+  static toEntity(domain: LevelCompetency): LevelCompetencyEntityOrm {
+    return {
+      id: domain.id,
+      competency: {
+        id: domain.competency.id,
+        name: domain.competency.name,
+        description: domain.competency.description,
+      },
+      level: domain.level,
+      descriptor: domain.descriptor,
+    };
   }
 }

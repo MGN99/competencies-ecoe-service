@@ -1,6 +1,8 @@
 export class EcoeStudentResponseDto {
     id: number;
     studentId: string;
-    ecoeInstanceId: number;
-    competencyEvaluatedIds: number[];
+    ecoeId: number;
+    levelCompetenciesEvaluatedIds: number[];
+    finalGrade: number;
+    finalAchievementLevel: string;
 }

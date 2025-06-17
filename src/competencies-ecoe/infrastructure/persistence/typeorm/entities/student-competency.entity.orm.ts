@@ -12,6 +12,7 @@ export class StudentCompetencyEntityOrm {
     @JoinColumn({ name: 'ecoe_student_id' })
     ecoeStudent: EcoeStudentEntityOrm;
 
+    // cambiar levelCompetencyId por competencyId
     @ManyToOne(() => LevelCompetencyEntityOrm)
     @JoinColumn({ name: 'level_competency_id' })
     levelCompetency: LevelCompetencyEntityOrm;

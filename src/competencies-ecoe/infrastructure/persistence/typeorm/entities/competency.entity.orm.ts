@@ -12,6 +12,6 @@ export class CompetencyEntityOrm {
     @Column()
     description: string;
 
-    @OneToMany(() => LevelCompetencyEntityOrm, level => level.competency)
-    levelsCompetence: LevelCompetencyEntityOrm[];
+    //@OneToMany(() => LevelCompetencyEntityOrm, level => level.competency)
+    //levelsCompetence: LevelCompetencyEntityOrm[];
 }

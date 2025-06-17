@@ -1,12 +1,12 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { LevelCompetency } from 'src/competencies-ecoe/domain/models/level-competency.entity';
-import { LevelCompetencyRepositoryOutPort } from 'src/competencies-ecoe/domain/repositories/level-competency.repository.out.port';
+import { ILevelCompetencyRepositoryOutPort } from 'src/competencies-ecoe/domain/repositories/level-competency.repository.out.port';
 
 @Injectable()
 export class GetCompetenciesLevelByIdsUseCase {
     constructor(
-        @Inject('LevelCompetencyRepositoryOutPort')
-        private readonly levelCompetencyRepo: LevelCompetencyRepositoryOutPort,
+        @Inject('ILevelCompetencyRepositoryOutPort')
+        private readonly levelCompetencyRepo: ILevelCompetencyRepositoryOutPort,
     ) {}
 
     async execute(competenciesLevelIds: number[]): Promise<LevelCompetency[]> {

@@ -1,6 +1,5 @@
 import { Type } from "class-transformer";
 import { IsInt, IsNotEmpty, IsString, Max, Min } from "class-validator";
-import { IsNumber } from "class-validator";
 
 export class AddStudentToEcoeDto {
     @IsNotEmpty()

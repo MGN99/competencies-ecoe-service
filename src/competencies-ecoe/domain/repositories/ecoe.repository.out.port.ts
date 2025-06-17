@@ -1,18 +1,13 @@
-import { Ecoe } from '../models/ecoe.entity';
-import { EcoeInstance } from '../models/ecoe_instance.entity';
+import { Ecoe } from "../models/ecoe.entity";
 
 export interface IEcoeRepositoryOutPort {
-  //findAvailable(): Promise<Pick<Ecoe, 'id' | 'semester' | 'description'>[]>;
-  findAll(): Promise<Ecoe[]>;
+    save(ecoe: Ecoe): Promise<Ecoe>;
 
-  findById(id: number): Promise<Ecoe | null>;
+    findAll(): Promise<Ecoe[]>;
 
-  findInstancesByEcoeId(ecoeId: number): Promise<EcoeInstance[]>
+    findOneById(id: number): Promise<Ecoe | null>;
 
-  createEcoeInstance(
-    ecoeId: number,
-    year: number,
-    semester: number,
-    description: string,
-  ): Promise<EcoeInstance>
+    findOneBySemesterAndYear(semester: number, year: number): Promise<Ecoe | null>;
+
+    findByCycle(cycle: 'BASICO' | 'PROFESIONAL' | 'FINAL'): Promise<Ecoe[]>;
 }

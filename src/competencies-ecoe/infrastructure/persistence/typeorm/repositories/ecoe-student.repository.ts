@@ -5,81 +5,87 @@ import { InjectRepository } from "@nestjs/typeorm";
 import { EcoeStudent } from "src/competencies-ecoe/domain/models/ecoe-student.entity";
 import { Repository } from "typeorm";
 import { EcoeStudentMapper } from "src/competencies-ecoe/infrastructure/mappers/ecoe-student.mapper";
-import { EcoeInstanceEntityOrm } from "../entities/ecoe-instance.entity.orm";
+import { Ecoe } from "src/competencies-ecoe/domain/models/ecoe.entity";
 
 @Injectable()
 export class EcoeStudentRepositoryImpl implements IEcoeStudentRepositoryOutPort {
     constructor(
         @InjectRepository(EcoeStudentEntityOrm)
         private readonly ormRepo: Repository<EcoeStudentEntityOrm>,
-        @InjectRepository(EcoeInstanceEntityOrm)
-        private readonly ecoeInstanceRepo: Repository<EcoeInstanceEntityOrm>,
-    ) { }
+    ) {}
 
-    async findOneByStudentAndYear(studentId: string, year: number): Promise<EcoeStudent | null> {
-        const entity = await this.ormRepo.findOne({
+    async findByStudentYear(studentId: string, year: number): Promise<EcoeStudent[] | null> {
+        const entities = await this.ormRepo.find({
             where: {
                 studentId,
-                ecoeInstance: { year },
+                ecoe: { year },
             },
             relations: [
-                'ecoe_instance',
+                'ecoe',
                 'competenciesEvaluated',
                 'competenciesEvaluated.competency'
             ],
         });
 
-        return entity ? EcoeStudentMapper.toDomain(entity) : null;
+        return entities.length > 0 ? entities.map(EcoeStudentMapper.toDomain) : [];
     }
 
-    async findEcoeYearsByStudentId(studentId: string): Promise<number[]> {
+    async findYearsByStudentId(studentId: string): Promise<number[]> {
         const ecoeStudents = await this.ormRepo.find({
             where: { studentId },
-            relations: ['ecoeInstance'],
-            select: ['ecoeInstance'],
+            relations: ['ecoe'],
+            select: ['ecoe'],
         });
 
         return ecoeStudents
-            .map(r => r.ecoeInstance.year)
+            .map(r => r.ecoe.year)
             .sort((yearA, yearB) => yearA - yearB);
     }
 
-    async addEcoeInstanceStudent(ecoeInstanceId: number, studentId: string): Promise<void> {
-        const ecoeInstance = await this.ecoeInstanceRepo.findOne({
-            where: {
-                ecoe: { id: ecoeInstanceId },
-            },
-        });
-
-        if (!ecoeInstance) {
-            throw new Error('EcoeInstance not found');
-        }
-
+    async save(ecoe: Ecoe, studentId: string): Promise<void> {
         const newEntity = this.ormRepo.create({
-            studentId: studentId,
-            finalNote: 0,
-            finalArchievementLevel: 'N/A',
-            ecoeInstance,
+            studentId,
+            ecoe,
         });
 
         await this.ormRepo.save(newEntity);
     }
 
-    async existsStudentInEcoeYear(studentId: string, year: number): Promise<boolean> {
+
+
+    /*
+    async existsStudentInEcoeYearSemester(
+        studentId: string,
+        year: number,
+        semester: number
+    ): Promise<boolean> {
         const count = await this.ormRepo.count({
             where: {
-                studentId: studentId,
-                ecoeInstance: { year },
+                studentId,
+                ecoe: { year, semester },
             },
         });
 
         return count > 0;
     }
+        */
+
+    async findByStudentIdAndEcoeId(studentId: string, ecoeId: number): Promise<EcoeStudent | null> {
+        const ecoeStudent = await this.ormRepo.findOne({
+            where: {
+                studentId,
+                ecoe: { id: ecoeId },
+            },
+            relations: ['ecoe', 'competenciesEvaluated'],
+        });
+
+        return ecoeStudent ? EcoeStudentMapper.toDomain(ecoeStudent) : null;
+    }
 
     async findStudentsByEcoeId(id: number): Promise<EcoeStudent[]> {
         const ecoeStudents = await this.ormRepo.find({
-            where: { ecoeInstance: { ecoe: { id } } },
-            relations: ['ecoe', 'competenciesEvaluated', 'competenciesEvaluated.competency'],
+            where: { ecoe: { id } },
+            relations: ['ecoe', 'competenciesEvaluated', 'competenciesEvaluated.levelCompetency'],
         });
 
         return ecoeStudents.map(EcoeStudentMapper.toDomain);

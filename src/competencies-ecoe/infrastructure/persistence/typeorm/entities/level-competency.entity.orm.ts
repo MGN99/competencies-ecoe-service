@@ -6,7 +6,7 @@ export class LevelCompetencyEntityOrm {
     @PrimaryGeneratedColumn('increment')
     id: number;
 
-    @ManyToOne(() => CompetencyEntityOrm, competency => competency.levelsCompetence)
+    @ManyToOne(() => CompetencyEntityOrm)
     @JoinColumn({ name: 'competency_id' })
     competency: CompetencyEntityOrm;
 

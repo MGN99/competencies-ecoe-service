@@ -2,7 +2,7 @@ import { EcoeStudent } from "src/competencies-ecoe/domain/models/ecoe-student.en
 import { EcoeStudentEntityOrm } from "../persistence/typeorm/entities/ecoe-student.entity.orm";
 import { StudentCompetencyMapper } from "./student-competency.mapper";
 import { EcoeStudentResponseDto } from "../dtos/ecoe-student-response.dto";
-import { EcoeInstanceMapper } from "./ecoe-instance.mapper";
+import { EcoeMapper } from "./ecoe.mapper";
 
 
 export class EcoeStudentMapper {
@@ -10,21 +10,31 @@ export class EcoeStudentMapper {
         return new EcoeStudent(
             entity.id,
             entity.studentId,
-            EcoeInstanceMapper.toDomain(entity.ecoeInstance),
-            entity.finalNote,
-            entity.finalArchievementLevel,
+            EcoeMapper.toDomain(entity.ecoe),
             entity.competenciesEvaluated?.map(StudentCompetencyMapper.toDomain) ?? []
         );
     }
 
+    static toEntity(domain: EcoeStudent): EcoeStudentEntityOrm {
+        return {
+            id: domain.id,
+            studentId: domain.studentId,
+            ecoe: EcoeMapper.toEntity(domain.ecoe),
+            competenciesEvaluated: domain.levelCompetenciesEvaluated.map(
+                StudentCompetencyMapper.toEntity
+            ),
+        };
+    }
+
+    // ver como calcular promedio yeso
     static toResponseDto(domain: EcoeStudent): EcoeStudentResponseDto {
         return {
             id: domain.id,
             studentId: domain.studentId,
-            ecoeInstanceId: domain.ecoeInstance.id,
-            competencyEvaluatedIds: domain.levelCompetenciesEvaluated.map(
-                (c) => c.id
-            ),
+            ecoeId: domain.ecoe.id,
+            levelCompetenciesEvaluatedIds: domain.levelCompetenciesEvaluated.map(c => c.id),
+            finalGrade: domain.finalGrade ?? 0,
+            finalAchievementLevel: domain.finalAchievementLevel ?? 'N/A',
         };
     }
 }

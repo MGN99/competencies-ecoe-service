@@ -1,8 +1,6 @@
 import { Module } from "@nestjs/common";
 import { TypeOrmModule } from "@nestjs/typeorm";
-import { Ecoe } from "src/competencies-ecoe/domain/models/ecoe.entity";
 import { EcoeRepository } from "./repositories/ecoe.repository";
-import { EcoeEntityOrm } from "./entities/ecoe.entity.orm";
 import { EcoeStudentEntityOrm } from "./entities/ecoe-student.entity.orm";
 import { CompetencyEntityOrm } from "./entities/competency.entity.orm";
 import { LevelCompetencyEntityOrm } from "./entities/level-competency.entity.orm";
@@ -11,14 +9,13 @@ import { StudentLevelCompetencyRepositoryImpl } from "./repositories/student-lev
 import { EcoeStudentRepositoryImpl } from "./repositories/ecoe-student.repository";
 import { LevelCompetencyRepository } from "./repositories/level-competency.repository";
 import { CompetencyRepository } from "./repositories/competency.repository";
-import { EcoeInstanceEntityOrm } from "./entities/ecoe-instance.entity.orm";
+import { EcoeEntityOrm } from "./entities/ecoe.entity.orm";
 
 
 @Module({
     imports: [
         TypeOrmModule.forFeature([
             EcoeEntityOrm,
-            EcoeInstanceEntityOrm,
             EcoeStudentEntityOrm,
             CompetencyEntityOrm,
             LevelCompetencyEntityOrm,
@@ -36,7 +33,7 @@ import { EcoeInstanceEntityOrm } from "./entities/ecoe-instance.entity.orm";
             useClass: EcoeStudentRepositoryImpl,
         },
         {
-            provide: 'LevelCompetencyRepositoryOutPort',
+            provide: 'ILevelCompetencyRepositoryOutPort',
             useClass: LevelCompetencyRepository,
         },
         {
@@ -47,12 +44,11 @@ import { EcoeInstanceEntityOrm } from "./entities/ecoe-instance.entity.orm";
             provide: 'IEcoeRepositoryOutPort',
             useClass: EcoeRepository,
         },
-        EcoeRepository,
     ],
     exports: [
         'IStudentLevelCompetencyRepositoryOutPort',
         'IEcoeStudentRepositoryOutPort',
-        'LevelCompetencyRepositoryOutPort',
+        'ILevelCompetencyRepositoryOutPort',
         'ICompetencyRepositoryOutPort',
         'IEcoeRepositoryOutPort',
     ]

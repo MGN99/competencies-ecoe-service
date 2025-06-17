@@ -1,15 +1,16 @@
 import { EcoeStudent } from "../models/ecoe-student.entity";
 import { Ecoe } from "../models/ecoe.entity";
 
-
 export interface IEcoeStudentRepositoryOutPort {
-    findOneByStudentAndYear(studentId: string, ecoeYear: number): Promise<EcoeStudent | null>;
+    findByStudentYear(studentId: string, year: number): Promise<EcoeStudent[] | null>;
 
-    findEcoeYearsByStudentId(studentId: string): Promise<number[]>;
+    findYearsByStudentId(studentId: string): Promise<number[]>;
 
-    addEcoeInstanceStudent(ecoeId: number, studentId: string): Promise<void>;
+    save(ecoe: Ecoe, studentId: string): Promise<void>;
 
-    existsStudentInEcoeYear(studentId: string, ecoeYear: number): Promise<boolean>;
+    findByStudentIdAndEcoeId(studentId: string, ecoeId: number): Promise<EcoeStudent | null>;
 
     findStudentsByEcoeId(ecoeId: number): Promise<EcoeStudent[]>;
+
+    //findByStudentId(studentId: string): Promise<EcoeStudent[]>;
 }
