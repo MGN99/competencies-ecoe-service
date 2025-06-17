@@ -12,16 +12,16 @@ export class GetStudentEcoeCompetenciesAvgByEcoeIdUseCase {
     async execute(dto: StudentEcoeCompetenciesAvgByEcoeIdDto): Promise<{ average: number }> {
         const ecoeStudent = await this.repositoryEcoeStudent.findByStudentIdAndEcoeId(dto.studentId, dto.ecoeId);
 
-        if (!ecoeStudent || !Array.isArray(ecoeStudent.levelCompetenciesEvaluated) || ecoeStudent.levelCompetenciesEvaluated.length === 0) {
+        if (!ecoeStudent || !Array.isArray(ecoeStudent.competenciesEvaluated) || ecoeStudent.competenciesEvaluated.length === 0) {
             return { average: 0 };
         }
 
-        const sum = ecoeStudent.levelCompetenciesEvaluated.reduce(
+        const sum = ecoeStudent.competenciesEvaluated.reduce(
             (acc, competency) => acc + (competency.grade ?? 0),
             0,
         );
 
-        const average = sum / ecoeStudent.levelCompetenciesEvaluated.length;
+        const average = sum / ecoeStudent.competenciesEvaluated.length;
         return { average };
     }
 }

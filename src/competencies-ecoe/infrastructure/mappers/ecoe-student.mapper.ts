@@ -20,7 +20,7 @@ export class EcoeStudentMapper {
             id: domain.id,
             studentId: domain.studentId,
             ecoe: EcoeMapper.toEntity(domain.ecoe),
-            competenciesEvaluated: domain.levelCompetenciesEvaluated.map(
+            competenciesEvaluated: domain.competenciesEvaluated.map(
                 StudentCompetencyMapper.toEntity
             ),
         };
@@ -32,7 +32,7 @@ export class EcoeStudentMapper {
             id: domain.id,
             studentId: domain.studentId,
             ecoeId: domain.ecoe.id,
-            levelCompetenciesEvaluatedIds: domain.levelCompetenciesEvaluated.map(c => c.id),
+            competenciesEvaluatedIds: domain.competenciesEvaluated.map(c => c.id),
             finalGrade: domain.finalGrade ?? 0,
             finalAchievementLevel: domain.finalAchievementLevel ?? 'N/A',
         };

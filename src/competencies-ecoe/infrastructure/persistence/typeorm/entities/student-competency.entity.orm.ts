@@ -1,6 +1,6 @@
 import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, JoinColumn } from 'typeorm';
 import { EcoeStudentEntityOrm } from './ecoe-student.entity.orm';
-import { LevelCompetencyEntityOrm } from './level-competency.entity.orm';
+import { CompetencyEntityOrm } from './competency.entity.orm';
 
 
 @Entity('student_competencies')
@@ -13,9 +13,12 @@ export class StudentCompetencyEntityOrm {
     ecoeStudent: EcoeStudentEntityOrm;
 
     // cambiar levelCompetencyId por competencyId
-    @ManyToOne(() => LevelCompetencyEntityOrm)
-    @JoinColumn({ name: 'level_competency_id' })
-    levelCompetency: LevelCompetencyEntityOrm;
+    //@ManyToOne(() => LevelCompetencyEntityOrm)
+    //@JoinColumn({ name: 'level_competency_id' })
+    //levelCompetency: LevelCompetencyEntityOrm;
+    @ManyToOne(() => CompetencyEntityOrm, { eager: true })
+    @JoinColumn({ name: 'competency_id' })
+    competency: CompetencyEntityOrm;
 
     @Column('float')
     grade: number;

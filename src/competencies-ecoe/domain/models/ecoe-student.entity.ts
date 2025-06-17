@@ -1,17 +1,17 @@
 import { Ecoe } from './ecoe.entity';
-import { StudentLevelCompetency } from './student-level-competency.entity';
+import { StudentCompetency } from './student-competency.entity';
 
 export class EcoeStudent {
     constructor(
         public readonly id: number,
         public studentId: string,
         public ecoe: Ecoe,
-        public levelCompetenciesEvaluated: StudentLevelCompetency[] = []
+        public competenciesEvaluated: StudentCompetency[] = []
     ) { }
 
     get hasAllCompetencies(): boolean {
         const uniqueCompetencyIds = new Set(
-            this.levelCompetenciesEvaluated.map(c => c.levelCompetency.competency.id)
+            this.competenciesEvaluated.map(c => c.competency.id)
         );
         return uniqueCompetencyIds.size === 8;
     }
@@ -19,8 +19,8 @@ export class EcoeStudent {
     get finalGrade(): number | null {
         if (!this.hasAllCompetencies) return null;
 
-        const total = this.levelCompetenciesEvaluated.reduce((sum, c) => sum + c.grade, 0);
-        return total / this.levelCompetenciesEvaluated.length;
+        const total = this.competenciesEvaluated.reduce((sum, c) => sum + c.grade, 0);
+        return total / this.competenciesEvaluated.length;
     }
 
     get finalAchievementLevel(): string | null {

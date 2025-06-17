@@ -1,28 +1,28 @@
-import { StudentLevelCompetency } from "src/competencies-ecoe/domain/models/student-level-competency.entity";
+import { StudentCompetency } from "src/competencies-ecoe/domain/models/student-competency.entity";
 import { StudentCompetencyEntityOrm } from "../persistence/typeorm/entities/student-competency.entity.orm";
-//import { Competency } from "src/competencies-ecoe/domain/models/competency.entity";
 import { EcoeStudentMapper } from "./ecoe-student.mapper";
-import { LevelsCompetencyMapper } from "./levels-competency.mapper";
+import { CompetencyMapper } from "./competency.mapper";
 
 export class StudentCompetencyMapper {
-  static toDomain(entity: StudentCompetencyEntityOrm): StudentLevelCompetency {
+  static toDomain(entity: StudentCompetencyEntityOrm): StudentCompetency {
 
-    return new StudentLevelCompetency(
+    return new StudentCompetency(
       entity.id,
       entity.grade,
       entity.levelAchievement,
       EcoeStudentMapper.toDomain(entity.ecoeStudent),
-      LevelsCompetencyMapper.toDomain(entity.levelCompetency),
+      //LevelsCompetencyMapper.toDomain(entity.levelCompetency),
+      CompetencyMapper.toDomain(entity.competency),
     );
   }
 
-  static toEntity(domain: StudentLevelCompetency): StudentCompetencyEntityOrm {
+  static toEntity(domain: StudentCompetency): StudentCompetencyEntityOrm {
     return {
       id: domain.id,
       grade: domain.grade,
       levelAchievement: domain.levelAchievement,
       ecoeStudent: EcoeStudentMapper.toEntity(domain.ecoeStudent),
-      levelCompetency: LevelsCompetencyMapper.toEntity(domain.levelCompetency),
+      competency: CompetencyMapper.toEntity(domain.competency),
     };
   }
 }

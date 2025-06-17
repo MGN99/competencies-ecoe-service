@@ -2,18 +2,18 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { StudentCompetencyEntityOrm } from '../entities/student-competency.entity.orm';
-import { StudentLevelCompetency } from 'src/competencies-ecoe/domain/models/student-level-competency.entity';
+import { StudentCompetency } from 'src/competencies-ecoe/domain/models/student-competency.entity';
 import { StudentCompetencyMapper } from 'src/competencies-ecoe/infrastructure/mappers/student-competency.mapper';
-import { IStudentLevelCompetencyRepositoryOutPort } from 'src/competencies-ecoe/domain/repositories/student-level-competency.repository.out.port';
+import { IStudentCompetencyRepositoryOutPort } from 'src/competencies-ecoe/domain/repositories/student-competency.repository.out.port';
 
 @Injectable()
-export class StudentLevelCompetencyRepositoryImpl implements IStudentLevelCompetencyRepositoryOutPort {
+export class StudentCompetencyRepositoryImpl implements IStudentCompetencyRepositoryOutPort {
     constructor(
     @InjectRepository(StudentCompetencyEntityOrm)
     private readonly repo: Repository<StudentCompetencyEntityOrm>,
     ) {}
 
-    async findByEcoeStudentId(ecoeStudentId: number): Promise<StudentLevelCompetency[]> {
+    async findByEcoeStudentId(ecoeStudentId: number): Promise<StudentCompetency[]> {
         const studentCompetencies = await this.repo.find({
             where: {
                 ecoeStudent: { id: ecoeStudentId },
