@@ -7,6 +7,7 @@ import { EcoeMapper } from "./ecoe.mapper";
 
 export class EcoeStudentMapper {
     static toDomain(entity: EcoeStudentEntityOrm): EcoeStudent {
+        console.log('[LOG] EcoeStudentEntityOrm.competenciesEvaluated:', entity.competenciesEvaluated);
         return new EcoeStudent(
             entity.id,
             entity.studentId,
@@ -28,13 +29,14 @@ export class EcoeStudentMapper {
 
     // ver como calcular promedio yeso
     static toResponseDto(domain: EcoeStudent): EcoeStudentResponseDto {
+        console.log('[LOG] Mapper recibe dominio:', domain);
         return {
             id: domain.id,
             studentId: domain.studentId,
             ecoeId: domain.ecoe.id,
-            competenciesEvaluatedIds: domain.competenciesEvaluated.map(c => c.id),
-            finalGrade: domain.finalGrade ?? 0,
-            finalAchievementLevel: domain.finalAchievementLevel ?? 'N/A',
+            //competenciesEvaluatedIds: domain.competenciesEvaluated.map(c => c.id),
+            competenciesEvaluated: domain.competenciesEvaluated.map(StudentCompetencyMapper.toResponseDto),
+            finalGrade: domain.finalGrade,
         };
     }
 }

@@ -6,6 +6,7 @@ import { EcoeStudent } from "src/competencies-ecoe/domain/models/ecoe-student.en
 import { Repository } from "typeorm";
 import { EcoeStudentMapper } from "src/competencies-ecoe/infrastructure/mappers/ecoe-student.mapper";
 import { Ecoe } from "src/competencies-ecoe/domain/models/ecoe.entity";
+import { EcoeIdYearDto } from "src/competencies-ecoe/application/dtos/ecoe-id-yearSemester-by-student-id.dto";
 
 @Injectable()
 export class EcoeStudentRepositoryImpl implements IEcoeStudentRepositoryOutPort {
@@ -30,16 +31,29 @@ export class EcoeStudentRepositoryImpl implements IEcoeStudentRepositoryOutPort 
         return entities.length > 0 ? entities.map(EcoeStudentMapper.toDomain) : [];
     }
 
-    async findYearsByStudentId(studentId: string): Promise<number[]> {
-        const ecoeStudents = await this.ormRepo.find({
-            where: { studentId },
-            relations: ['ecoe'],
-            select: ['ecoe'],
-        });
+    async findEcoeIdsAndYearsByStudentId(studentId: string): Promise<{ ecoeId: number, yearSemester: string }[]> {
+    const ecoeStudents = await this.ormRepo.find({
+        where: { studentId },
+        relations: ['ecoe'],
+        select: ['id', 'ecoe'],
+    });
 
-        return ecoeStudents
-            .map(r => r.ecoe.year)
-            .sort((yearA, yearB) => yearA - yearB);
+    // Devuelve pares únicos ecoeId-year
+    const result: EcoeIdYearDto[] = [];
+    const seen = new Set<string>();
+    for (const es of ecoeStudents) {
+        if (es.ecoe) {
+            const key = `${es.ecoe.id}-${es.ecoe.year}-${es.ecoe.semester}`;
+            if (!seen.has(key)) {
+                const dto = new EcoeIdYearDto();
+                dto.ecoeId = es.ecoe.id;
+                dto.yearSemester = `${es.ecoe.year}-${es.ecoe.semester}`;
+                result.push(dto);
+                seen.add(key);
+            }
+        }
+    }
+    return result;
     }
 
     async save(ecoe: Ecoe, studentId: string): Promise<void> {
@@ -76,7 +90,7 @@ export class EcoeStudentRepositoryImpl implements IEcoeStudentRepositoryOutPort 
                 studentId,
                 ecoe: { id: ecoeId },
             },
-            relations: ['ecoe', 'competenciesEvaluated'],
+            relations: ['ecoe', 'competenciesEvaluated', 'competenciesEvaluated.competency'],
         });
 
         return ecoeStudent ? EcoeStudentMapper.toDomain(ecoeStudent) : null;

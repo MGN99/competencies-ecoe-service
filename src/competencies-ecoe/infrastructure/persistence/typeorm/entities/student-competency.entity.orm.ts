@@ -22,7 +22,4 @@ export class StudentCompetencyEntityOrm {
 
     @Column('float')
     grade: number;
-
-    @Column({ name: 'level_achievement'})
-    levelAchievement: string;
 }

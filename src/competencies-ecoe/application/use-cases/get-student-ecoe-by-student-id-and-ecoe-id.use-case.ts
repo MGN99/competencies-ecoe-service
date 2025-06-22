@@ -10,12 +10,20 @@ export class GetStudentEcoeByStudentIdAndEcoeIdUseCase {
     ) {}
 
     async execute(dto: StudentEcoeByYearDto): Promise<any> {
-        const ecoeStudent = await this.repositoryEcoeStudent.findByStudentIdAndEcoeId(dto.studentId, dto.ecoeId);
+        try {
+            console.log('[LOG] UseCase recibe:', dto);
+            const ecoeStudent = await this.repositoryEcoeStudent.findByStudentIdAndEcoeId(dto.studentId, dto.ecoeId);
+            console.log('[LOG] UseCase ecoeStudent encontrado:', ecoeStudent);
 
-        if (!ecoeStudent) {
-            return {};
-        }
-
+            if (!ecoeStudent) {
+                console.warn('[WARN] No se encontró ecoeStudent para:', dto);
+                return {};
+            }
+        
         return ecoeStudent;
+        } catch (error) {
+         console.error('[ERROR] En UseCase:', error);
+            throw error;
+        }
     }
 }

@@ -10,6 +10,9 @@ import { StudentDto } from 'src/competencies-ecoe/application/dtos/student.dto';
 import { GetStudentEcoeYearsUseCase } from 'src/competencies-ecoe/application/use-cases/get-student-ecoe-years.use-case';
 import { GetLevelCompetencyIdsByCompetencyIdUseCase } from 'src/competencies-ecoe/application/use-cases/get-level-competency-ids-by-competency-id.use-case';
 import { GetCompetencyByIdUseCase } from 'src/competencies-ecoe/application/use-cases/get-competency-by-id.use-case';
+import { Ecoe } from 'src/competencies-ecoe/domain/models/ecoe.entity';
+import { EcoeStudent } from 'src/competencies-ecoe/domain/models/ecoe-student.entity';
+import { EcoeStudentMapper } from '../../mappers/ecoe-student.mapper';
 
 
 @Controller()
@@ -40,9 +43,11 @@ export class CompetenciesMessageController  {
         @Payload() data: StudentEcoeByYearDto,
     ) {
         try {
+            console.log('[LOG] Payload recibido en GET_STUDENT_ECOE_BY_ID:', data);
             const studentEcoe = await this.getStudentEcoeByStudentIdAndEcoeIdUseCase.execute(data);
             console.log(studentEcoe);
-            return studentEcoe;
+            if (!studentEcoe) return {};
+            return EcoeStudentMapper.toResponseDto(studentEcoe);
         } catch (error) {
             throw new RpcException('Error getting student ecoe');
         }
@@ -65,6 +70,7 @@ export class CompetenciesMessageController  {
     ) {
         try {
             const { studentId } = data;
+            //Este retorna ecoeId y year-semester
             return await this.getStudentEcoeYearsUseCase.execute(studentId);
         } catch (error) {
             throw new RpcException('Error getting student ecoe years');

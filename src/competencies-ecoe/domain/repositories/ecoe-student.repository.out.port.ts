@@ -4,7 +4,7 @@ import { Ecoe } from "../models/ecoe.entity";
 export interface IEcoeStudentRepositoryOutPort {
     findByStudentYear(studentId: string, year: number): Promise<EcoeStudent[] | null>;
 
-    findYearsByStudentId(studentId: string): Promise<number[]>;
+    findEcoeIdsAndYearsByStudentId(studentId: string): Promise<{ ecoeId: number, yearSemester: string }[]>;
 
     save(ecoe: Ecoe, studentId: string): Promise<void>;
 

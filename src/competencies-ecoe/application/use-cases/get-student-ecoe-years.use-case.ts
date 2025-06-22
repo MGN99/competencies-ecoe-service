@@ -8,8 +8,7 @@ export class GetStudentEcoeYearsUseCase {
         private readonly ecoeStudentRepo: IEcoeStudentRepositoryOutPort,
     ) {}
 
-    async execute(studentId: string): Promise<number[]> {
-        const years = await this.ecoeStudentRepo.findYearsByStudentId(studentId);
-        return years;
+    async execute(studentId: string): Promise<{ ecoeId: number, yearSemester: string }[]> {
+        return this.ecoeStudentRepo.findEcoeIdsAndYearsByStudentId(studentId);
     }
 }
