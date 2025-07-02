@@ -3,7 +3,7 @@ import { IEcoeStudentRepositoryOutPort } from "src/competencies-ecoe/domain/repo
 import { EcoeStudentEntityOrm } from "../entities/ecoe-student.entity.orm";
 import { InjectRepository } from "@nestjs/typeorm";
 import { EcoeStudent } from "src/competencies-ecoe/domain/models/ecoe-student.entity";
-import { Repository } from "typeorm";
+import { In, Repository } from "typeorm";
 import { EcoeStudentMapper } from "src/competencies-ecoe/infrastructure/mappers/ecoe-student.mapper";
 import { Ecoe } from "src/competencies-ecoe/domain/models/ecoe.entity";
 import { EcoeIdYearDto } from "src/competencies-ecoe/application/dtos/ecoe-id-yearSemester-by-student-id.dto";
@@ -63,6 +63,17 @@ export class EcoeStudentRepositoryImpl implements IEcoeStudentRepositoryOutPort 
         });
 
         await this.ormRepo.save(newEntity);
+    }
+
+    async findByEcoeIds(ecoeIds: number[]): Promise<EcoeStudent[]> {
+        const ecoeStudents = await this.ormRepo.find({
+            where: {
+                ecoe: { id: In(ecoeIds) },
+            },
+            relations: ['ecoe', 'competenciesEvaluated', 'competenciesEvaluated.competency'],
+        });
+
+        return ecoeStudents.map(EcoeStudentMapper.toDomain);
     }
 
 
