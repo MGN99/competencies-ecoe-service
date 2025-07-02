@@ -12,5 +12,7 @@ export interface IEcoeStudentRepositoryOutPort {
 
     findStudentsByEcoeId(ecoeId: number): Promise<EcoeStudent[]>;
 
+    findByEcoeIds(ecoeIds: number[]): Promise<EcoeStudent[]>;
+
     //findByStudentId(studentId: string): Promise<EcoeStudent[]>;
 }
