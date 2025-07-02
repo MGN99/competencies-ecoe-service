@@ -12,4 +12,6 @@ export interface IEcoeRepositoryOutPort {
     findByCycle(cycle: 'BASICO' | 'PROFESIONAL' | 'FINAL'): Promise<Ecoe[]>;
 
     findByCycleYear(cycle: 'BASICO' | 'PROFESIONAL' | 'FINAL', year: number): Promise<Ecoe[]>;
+
+    findAllByCycle(cycle: 'BASICO' | 'PROFESIONAL' | 'FINAL'): Promise<Ecoe[]>;
 }
