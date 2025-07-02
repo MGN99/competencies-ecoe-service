@@ -46,4 +46,9 @@ export class EcoeRepository implements IEcoeRepositoryOutPort {
         const entities = await this.repo.find({ where: { cycle, year } });
         return entities.map(EcoeMapper.toDomain);
     }
+
+    async findAllByCycle(cycle: 'BASICO' | 'PROFESIONAL' | 'FINAL'): Promise<Ecoe[]> {
+        const entities = await this.repo.find({ where: { cycle } });
+        return entities.map(EcoeMapper.toDomain);
+    }
 }
