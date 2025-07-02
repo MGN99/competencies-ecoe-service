@@ -24,17 +24,22 @@ export class GetStudentsWithPendingEcoeByCycleUseCase {
         const ecoeIds = ecoes.map(e => e.id);
         const ecoeStudents: EcoeStudent[] = await this.ecoeStudentRepository.findByEcoeIds(ecoeIds);
 
-        console.log(ecoeStudents);
+        const ecoeStudentMap = new Map<string, EcoeStudent[]>();
+        for (const es of ecoeStudents) {
+            if (!ecoeStudentMap.has(es.studentId)) {
+                ecoeStudentMap.set(es.studentId, []);
+            }
+            ecoeStudentMap.get(es.studentId)!.push(es);
+        }
+
         const students: StudentDetailsDto[] = await firstValueFrom(
             this.studentClient.send('GET_ALL_STUDENTS', {})
         );
 
-        console.log(students);
-
         const filtered = students.filter(student => {
-            const records = ecoeStudents.filter(e => e.studentId === student.id);
+            const records = ecoeStudentMap.get(student.id);
 
-            if (records.length === 0) return true;
+            if (!records || records.length === 0) return true;
 
             return records.every(e =>
                 e.finalGrade !== null &&
