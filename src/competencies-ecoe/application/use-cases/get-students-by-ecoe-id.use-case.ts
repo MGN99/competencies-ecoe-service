@@ -14,10 +14,13 @@ export class GetStudentsByEcoeIdUseCase {
     ) {}
 
     async execute(ecoeId: number): Promise<EcoeStudent[]> {
-        const ecoeStudents = await this.ecoeStudentRepository.findStudentsByEcoeId(ecoeId);
-        if (!ecoeStudents) {
+        const ecoe = await this.ecoeRepository.findOneById(ecoeId);
+
+        if (!ecoe) {
             throw new EcoeNotFoundError(ecoeId);
         }
+
+        const ecoeStudents = await this.ecoeStudentRepository.findStudentsByEcoeId(ecoeId);
 
         return ecoeStudents;        
     }
