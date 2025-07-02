@@ -7,7 +7,6 @@ import { EcoeMapper } from "./ecoe.mapper";
 
 export class EcoeStudentMapper {
     static toDomain(entity: EcoeStudentEntityOrm): EcoeStudent {
-        console.log('[LOG] EcoeStudentEntityOrm.competenciesEvaluated:', entity.competenciesEvaluated);
         return new EcoeStudent(
             entity.id,
             entity.studentId,
