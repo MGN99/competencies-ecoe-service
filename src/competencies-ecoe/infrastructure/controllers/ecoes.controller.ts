@@ -12,6 +12,7 @@ import { EcoeAlreadyExistsError } from 'src/competencies-ecoe/domain/errors/ecoe
 import { AddEcoeUseCase } from 'src/competencies-ecoe/application/use-cases/add-ecoe.use-case';
 import { AddEcoeDto } from '../dtos/add-ecoe.dto';
 import { GetEcoesByCycleCurrentYearUseCase } from 'src/competencies-ecoe/application/use-cases/get-ecoes-by-cycle-current-year';
+import { GetStudentsWithPendingEcoeByCycleUseCase } from 'src/competencies-ecoe/application/use-cases/get-students-with-pending-ecoe-by-cycle.use-case';
 //import { EcoesLevelNotFoundError } from 'src/competencies-ecoe/domain/errors/ecoes-level-not-found.error';
 //import { EcoeIdDto } from '../dtos/ecoe-id.dto';
 
@@ -24,6 +25,7 @@ export class EcoesController {
         private readonly getEcoesByCycleUseCase: GetEcoesByCycleUseCase,
         private readonly addEcoeUseCase: AddEcoeUseCase,
         private readonly getEcoesByCycleCurrentYearUseCase: GetEcoesByCycleCurrentYearUseCase,
+        private readonly getStudentsWithPendingEcoeByCycleUseCase: GetStudentsWithPendingEcoeByCycleUseCase,
     ) { }
 
 
@@ -102,6 +104,17 @@ export class EcoesController {
             if (error instanceof EcoeNotFoundError) {
                 throw new NotFoundException(error.message);
             }
+            throw error;
+        }
+    }
+
+    @Get('students-without-ecoe/:cycle')
+    async getStudentsWithoutEcoeByCycle(@Param() data: GetEcoesByCycleDto) {
+        try {
+            const students = await this.getStudentsWithPendingEcoeByCycleUseCase.execute(data.cycle);
+            return students;
+        }
+        catch (error) {
             throw error;
         }
     }
