@@ -15,13 +15,37 @@ import { GetCompetenciesUseCase } from "./application/use-cases/get-competencies
 import { CompetenciesController } from "./infrastructure/controllers/competencies.controller";
 import { AddEcoeUseCase } from "./application/use-cases/add-ecoe.use-case";
 import { GetEcoesByCycleCurrentYearUseCase } from "./application/use-cases/get-ecoes-by-cycle-current-year";
-
+import { ConfigModule, ConfigService } from '@nestjs/config';
+import { ClientsModule, Transport } from '@nestjs/microservices';
+import { GetStudentsWithPendingEcoeByCycleUseCase } from "./application/use-cases/get-students-with-pending-ecoe-by-cycle.use-case";
 
 @Module({
     imports: [
         TypeOrmPersistenceModule,
+        ConfigModule,
+        ClientsModule.registerAsync([
+            {
+                name: 'STUDENT_SERVICE',
+                imports: [ConfigModule],
+                inject: [ConfigService],
+                useFactory: async (configService: ConfigService) => ({
+                    transport: Transport.RMQ,
+                    options: {
+                        urls: [configService.get<string>('RABBITMQ_URI') || 'amqp://localhost:5672'],
+                        queue: 'student_queue',
+                        queueOptions: {
+                            durable: true,
+                        },
+                    },
+                }),
+            },
+        ]),
     ],
-    controllers: [CompetenciesController, CompetenciesMessageController, EcoesController],
+    controllers: [
+        CompetenciesController,
+        CompetenciesMessageController,
+        EcoesController,
+    ],
     providers: [
         GetCompetenciesLevelByIdsUseCase,
         GetStudentEcoeByStudentIdAndEcoeIdUseCase,
@@ -35,7 +59,7 @@ import { GetEcoesByCycleCurrentYearUseCase } from "./application/use-cases/get-e
         GetCompetenciesUseCase,
         AddEcoeUseCase,
         GetEcoesByCycleCurrentYearUseCase,
+        GetStudentsWithPendingEcoeByCycleUseCase,
     ],
 })
-
-export class CompetenciesEcoeModule {}
+export class CompetenciesEcoeModule { }
