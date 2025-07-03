@@ -24,6 +24,23 @@ export class StudentCompetencyRepositoryImpl implements IStudentCompetencyReposi
         return studentCompetencies.map(StudentCompetencyMapper.toDomain);
     }
 
+    async findOneByEcoeStudentAndCompetency(ecoeStudentId: number, competencyId: number): Promise<StudentCompetency | null> {
+        const studentCompetency = await this.repo.findOne({
+            where: {
+                ecoeStudent: { id: ecoeStudentId },
+                competency: { id: competencyId },
+            },
+            relations: ['competency'],
+        });
+
+        return studentCompetency ? StudentCompetencyMapper.toDomain(studentCompetency) : null;
+    }
+
+    async save(studentCompetency: StudentCompetency): Promise<void> {
+        const studentCompetencyEntity = this.repo.create(studentCompetency);
+        await this.repo.save(studentCompetencyEntity);
+    }
+
     /*
     async findBySubject(subjectId: number): Promise<StudentCompetency[]> {
         
