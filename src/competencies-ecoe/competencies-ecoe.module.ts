@@ -18,6 +18,7 @@ import { GetEcoesByCycleCurrentYearUseCase } from "./application/use-cases/get-e
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { ClientsModule, Transport } from '@nestjs/microservices';
 import { GetStudentsWithPendingEcoeByCycleUseCase } from "./application/use-cases/get-students-with-pending-ecoe-by-cycle.use-case";
+import { DeleteEcoeStudentByIdUseCase } from "./application/use-cases/delete-ecoe-student-by-id.use-case";
 
 @Module({
     imports: [
@@ -60,6 +61,7 @@ import { GetStudentsWithPendingEcoeByCycleUseCase } from "./application/use-case
         AddEcoeUseCase,
         GetEcoesByCycleCurrentYearUseCase,
         GetStudentsWithPendingEcoeByCycleUseCase,
+        DeleteEcoeStudentByIdUseCase,
     ],
 })
 export class CompetenciesEcoeModule { }
