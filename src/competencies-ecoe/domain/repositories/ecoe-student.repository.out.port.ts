@@ -16,6 +16,8 @@ export interface IEcoeStudentRepositoryOutPort {
 
     findByEcoeIds(ecoeIds: number[]): Promise<EcoeStudent[]>;
 
+    findAllByCycle(cycle: 'BASICO' | 'PROFESIONAL' | 'FINAL'): Promise<EcoeStudent[]>;
+
     delete(id: number): Promise<void>;
 
     //findByStudentId(studentId: string): Promise<EcoeStudent[]>;
