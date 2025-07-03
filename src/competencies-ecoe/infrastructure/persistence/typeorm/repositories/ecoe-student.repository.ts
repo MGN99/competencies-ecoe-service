@@ -13,7 +13,7 @@ export class EcoeStudentRepositoryImpl implements IEcoeStudentRepositoryOutPort 
     constructor(
         @InjectRepository(EcoeStudentEntityOrm)
         private readonly ormRepo: Repository<EcoeStudentEntityOrm>,
-    ) {}
+    ) { }
 
     async findByStudentYear(studentId: string, year: number): Promise<EcoeStudent[] | null> {
         const entities = await this.ormRepo.find({
@@ -32,35 +32,32 @@ export class EcoeStudentRepositoryImpl implements IEcoeStudentRepositoryOutPort 
     }
 
     async findEcoeIdsAndYearsByStudentId(studentId: string): Promise<{ ecoeId: number, yearSemester: string }[]> {
-    const ecoeStudents = await this.ormRepo.find({
-        where: { studentId },
-        relations: ['ecoe'],
-        select: ['id', 'ecoe'],
-    });
+        const ecoeStudents = await this.ormRepo.find({
+            where: { studentId },
+            relations: ['ecoe'],
+            select: ['id', 'ecoe'],
+        });
 
-    // Devuelve pares únicos ecoeId-year
-    const result: EcoeIdYearDto[] = [];
-    const seen = new Set<string>();
-    for (const es of ecoeStudents) {
-        if (es.ecoe) {
-            const key = `${es.ecoe.id}-${es.ecoe.year}-${es.ecoe.semester}`;
-            if (!seen.has(key)) {
-                const dto = new EcoeIdYearDto();
-                dto.ecoeId = es.ecoe.id;
-                dto.yearSemester = `${es.ecoe.year}-${es.ecoe.semester}`;
-                result.push(dto);
-                seen.add(key);
+        // Devuelve pares únicos ecoeId-year
+        const result: EcoeIdYearDto[] = [];
+        const seen = new Set<string>();
+        for (const es of ecoeStudents) {
+            if (es.ecoe) {
+                const key = `${es.ecoe.id}-${es.ecoe.year}-${es.ecoe.semester}`;
+                if (!seen.has(key)) {
+                    const dto = new EcoeIdYearDto();
+                    dto.ecoeId = es.ecoe.id;
+                    dto.yearSemester = `${es.ecoe.year}-${es.ecoe.semester}`;
+                    result.push(dto);
+                    seen.add(key);
+                }
             }
         }
-    }
-    return result;
+        return result;
     }
 
-    async save(ecoe: Ecoe, studentId: string): Promise<void> {
-        const newEntity = this.ormRepo.create({
-            studentId,
-            ecoe,
-        });
+    async save(ecoeStudent: EcoeStudent): Promise<void> {
+        const newEntity = this.ormRepo.create(ecoeStudent);
 
         await this.ormRepo.save(newEntity);
     }
