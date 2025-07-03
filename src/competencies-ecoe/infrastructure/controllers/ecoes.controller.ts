@@ -83,7 +83,7 @@ export class EcoesController {
     }
 
 
-    @Delete('delete-ecoe-student/:id')
+    @Delete('ecoe-student/:id')
     async deleteEcoeStudent(@Param() param: DeleteEcoeStudentIdParamDto) {
         try {
             await this.deleteEcoeStudentByIdUseCase.execute(param.id);
