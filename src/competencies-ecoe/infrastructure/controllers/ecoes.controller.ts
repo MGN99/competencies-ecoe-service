@@ -1,4 +1,4 @@
-import { Body, ConflictException, Controller, Delete, Get, HttpCode, NotFoundException, Param, Post } from '@nestjs/common';
+import { Body, ConflictException, Controller, Delete, Get, HttpCode, HttpStatus, NotFoundException, Param, Post } from '@nestjs/common';
 import { AddStudentToEcoeDto } from '../dtos/add-student-to-ecoe.dto';
 import { AddStudentToEcoeUseCase } from 'src/competencies-ecoe/application/use-cases/add-student-to-ecoe.use-case';
 import { StudentAlreadyInEcoeError } from 'src/competencies-ecoe/domain/errors/student-already-in-ecoe.error';
@@ -20,6 +20,8 @@ import { EvaluateStudentCompetencyDto } from '../dtos/evaluate-student-competenc
 import { EvaluateStudentCompetencyUseCase } from 'src/competencies-ecoe/application/use-cases/evaluate-student-competency.use-case';
 import { AlreadyCompetencyEvaluatedError } from 'src/competencies-ecoe/domain/errors/already-competency-evaluated.error';
 import { CompetencyNotFoundError } from 'src/competencies-ecoe/domain/errors/competency-not-found.error';
+import { EcoeCycleNameParamDto } from '../dtos/ecoe-cycle-name.param.dto';
+import { GetStudentsWithLastEcoeByEcoeCycleUseCase } from 'src/competencies-ecoe/application/use-cases/get-students-with-last-ecoe-by-cycle.usecase';
 //import { EcoesLevelNotFoundError } from 'src/competencies-ecoe/domain/errors/ecoes-level-not-found.error';
 //import { EcoeIdDto } from '../dtos/ecoe-id.dto';
 
@@ -35,11 +37,12 @@ export class EcoesController {
         private readonly getStudentsWithPendingEcoeByCycleUseCase: GetStudentsWithPendingEcoeByCycleUseCase,
         private readonly deleteEcoeStudentByIdUseCase: DeleteEcoeStudentByIdUseCase,
         private readonly evaluateStudentCompetencyUseCase: EvaluateStudentCompetencyUseCase,
+        private readonly getStudentsWithLastEcoeByEcoeCycleUseCase: GetStudentsWithLastEcoeByEcoeCycleUseCase,
     ) { }
 
 
     @Get('by-cycle-current-year/:cycle')
-    async getEcoesByCycleCurrentYear(@Param() data: GetEcoesByCycleDto): Promise<any> {
+    async getEcoesByCycleCurrentYear(@Param() data: EcoeCycleNameParamDto): Promise<any> {
         try {
             const ecoes = await this.getEcoesByCycleCurrentYearUseCase.execute(data.cycle);
             console.log(ecoes);
@@ -110,6 +113,20 @@ export class EcoesController {
             return ecoes;
         }
         catch (error) {
+            throw error;
+        }
+    }
+
+    @Get('students-last-by-cycle/:cycle')
+    @HttpCode(HttpStatus.OK)
+    async getStudentsWithLastEcoeByEcoeCycle(
+        @Param() data: EcoeCycleNameParamDto,
+    ) {
+        try {
+            const ecoeStudents = await this.getStudentsWithLastEcoeByEcoeCycleUseCase.execute(data.cycle);
+            return ecoeStudents;
+
+        } catch (error) {
             throw error;
         }
     }
