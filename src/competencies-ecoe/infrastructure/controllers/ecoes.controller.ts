@@ -16,6 +16,10 @@ import { GetStudentsWithPendingEcoeByCycleUseCase } from 'src/competencies-ecoe/
 import { DeleteEcoeStudentByIdUseCase } from 'src/competencies-ecoe/application/use-cases/delete-ecoe-student-by-id.use-case';
 import { DeleteEcoeStudentIdParamDto } from '../dtos/delete-ecoe-student-id.param.dto';
 import { EcoeStudentNotFoundError } from 'src/competencies-ecoe/domain/errors/ecoe-student-not-found.error';
+import { EvaluateStudentCompetencyDto } from '../dtos/evaluate-student-competency.dto';
+import { EvaluateStudentCompetencyUseCase } from 'src/competencies-ecoe/application/use-cases/evaluate-student-competency.use-case';
+import { AlreadyCompetencyEvaluatedError } from 'src/competencies-ecoe/domain/errors/already-competency-evaluated.error';
+import { CompetencyNotFoundError } from 'src/competencies-ecoe/domain/errors/competency-not-found.error';
 //import { EcoesLevelNotFoundError } from 'src/competencies-ecoe/domain/errors/ecoes-level-not-found.error';
 //import { EcoeIdDto } from '../dtos/ecoe-id.dto';
 
@@ -30,6 +34,7 @@ export class EcoesController {
         private readonly getEcoesByCycleCurrentYearUseCase: GetEcoesByCycleCurrentYearUseCase,
         private readonly getStudentsWithPendingEcoeByCycleUseCase: GetStudentsWithPendingEcoeByCycleUseCase,
         private readonly deleteEcoeStudentByIdUseCase: DeleteEcoeStudentByIdUseCase,
+        private readonly evaluateStudentCompetencyUseCase: EvaluateStudentCompetencyUseCase,
     ) { }
 
 
@@ -133,6 +138,23 @@ export class EcoesController {
             return students;
         }
         catch (error) {
+            throw error;
+        }
+    }
+
+    @Post('evaluate-student-competency')
+    async evaluateStudentCompetency(@Body() dto: EvaluateStudentCompetencyDto): Promise<void> {
+        try {
+            await this.evaluateStudentCompetencyUseCase.execute(dto);
+        } catch (error) {
+            if (error instanceof EcoeStudentNotFoundError) {
+                throw new NotFoundException(error.message);
+            }
+
+            if (error instanceof CompetencyNotFoundError) {
+                throw new NotFoundException(error.message);
+            }
+
             throw error;
         }
     }
