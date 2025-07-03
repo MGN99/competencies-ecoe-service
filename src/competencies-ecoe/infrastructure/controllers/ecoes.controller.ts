@@ -22,6 +22,7 @@ import { AlreadyCompetencyEvaluatedError } from 'src/competencies-ecoe/domain/er
 import { CompetencyNotFoundError } from 'src/competencies-ecoe/domain/errors/competency-not-found.error';
 import { EcoeCycleNameParamDto } from '../dtos/ecoe-cycle-name.param.dto';
 import { GetStudentsWithLastEcoeByEcoeCycleUseCase } from 'src/competencies-ecoe/application/use-cases/get-students-with-last-ecoe-by-cycle.usecase';
+import e from 'express';
 //import { EcoesLevelNotFoundError } from 'src/competencies-ecoe/domain/errors/ecoes-level-not-found.error';
 //import { EcoeIdDto } from '../dtos/ecoe-id.dto';
 
@@ -124,11 +125,18 @@ export class EcoesController {
     ) {
         try {
             const ecoeStudents = await this.getStudentsWithLastEcoeByEcoeCycleUseCase.execute(data.cycle);
-            const ecoeStudentResponse = ecoeStudents.map(ecoeStudent => {
-                return EcoeStudentMapper.toResponseDto(ecoeStudent);
-            });
 
-            return ecoeStudentResponse;
+            return ecoeStudents.map(ecoeStudent => ({
+                id: ecoeStudent.id,
+                studentId: ecoeStudent.studentId,
+                ecoe: {
+                    id: ecoeStudent.ecoe.id,
+                    year: ecoeStudent.ecoe.year,
+                    semester: ecoeStudent.ecoe.semester,
+                },
+                finalGrade: ecoeStudent.finalGrade,
+                finalArchivementLevel: ecoeStudent.finalAchievementLevel
+            }))
 
         } catch (error) {
             throw error;
