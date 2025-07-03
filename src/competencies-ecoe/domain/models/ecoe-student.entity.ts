@@ -3,10 +3,10 @@ import { StudentCompetency } from './student-competency.entity';
 
 export class EcoeStudent {
     constructor(
-        public readonly id: number,
         public studentId: string,
         public ecoe: Ecoe,
-        public competenciesEvaluated: StudentCompetency[] = []
+        public competenciesEvaluated: StudentCompetency[] = [],
+        public readonly id?: number,
     ) { }
 
     get hasAllCompetencies(): boolean {
