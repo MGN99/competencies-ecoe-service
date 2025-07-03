@@ -1,11 +1,11 @@
 import { Type } from "class-transformer";
-import { IsInt, IsNotEmpty } from "class-validator";
+import { IsIn, IsInt, IsNotEmpty } from "class-validator";
 
 export class AddEcoeDto {
     @IsNotEmpty()
     name: string;
 
-    @IsNotEmpty()
+    @IsIn(['BASICO', 'PROFESIONAL', 'FINAL'])
     cycle: 'BASICO' | 'PROFESIONAL' | 'FINAL';
 
     @Type(() => Number)
