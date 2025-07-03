@@ -15,6 +15,20 @@ export class EcoeStudentRepositoryImpl implements IEcoeStudentRepositoryOutPort 
         private readonly ormRepo: Repository<EcoeStudentEntityOrm>,
     ) { }
 
+
+    async findOneById(id: number): Promise<EcoeStudent | null> {
+        const entity = await this.ormRepo.findOne({
+            where: { id },
+            relations: [
+                'ecoe',
+                'competenciesEvaluated',
+                'competenciesEvaluated.competency'
+            ],
+        });
+
+        return entity ? EcoeStudentMapper.toDomain(entity) : null;
+    }
+
     async findByStudentYear(studentId: string, year: number): Promise<EcoeStudent[] | null> {
         const entities = await this.ormRepo.find({
             where: {
@@ -111,5 +125,9 @@ export class EcoeStudentRepositoryImpl implements IEcoeStudentRepositoryOutPort 
         });
 
         return ecoeStudents.map(EcoeStudentMapper.toDomain);
+    }
+
+    async delete(id: number): Promise<void> {
+        await this.ormRepo.delete(id);
     }
 }
