@@ -126,6 +126,17 @@ export class EcoeStudentRepositoryImpl implements IEcoeStudentRepositoryOutPort 
         return ecoeStudents.map(EcoeStudentMapper.toDomain);
     }
 
+    async findAllByCycle(cycle: 'BASICO' | 'PROFESIONAL' | 'FINAL'): Promise<EcoeStudent[]> {
+        const ecoeStudents = await this.ormRepo.find({
+            where: {
+                ecoe: { cycle },
+            },
+            relations: ['ecoe', 'competenciesEvaluated', 'competenciesEvaluated.competency'],
+        });
+
+        return ecoeStudents.map(EcoeStudentMapper.toDomain);
+    }
+
     async delete(id: number): Promise<void> {
         await this.ormRepo.delete(id);
     }
