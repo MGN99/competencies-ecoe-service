@@ -6,7 +6,7 @@ export interface IEcoeStudentRepositoryOutPort {
 
     findEcoeIdsAndYearsByStudentId(studentId: string): Promise<{ ecoeId: number, yearSemester: string }[]>;
 
-    save(ecoe: Ecoe, studentId: string): Promise<void>;
+    save(ecoeStudent: EcoeStudent): Promise<void>;
 
     findByStudentIdAndEcoeId(studentId: string, ecoeId: number): Promise<EcoeStudent | null>;
 
