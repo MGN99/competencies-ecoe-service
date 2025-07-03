@@ -5,7 +5,6 @@ import { InjectRepository } from "@nestjs/typeorm";
 import { EcoeStudent } from "src/competencies-ecoe/domain/models/ecoe-student.entity";
 import { In, Repository } from "typeorm";
 import { EcoeStudentMapper } from "src/competencies-ecoe/infrastructure/mappers/ecoe-student.mapper";
-import { Ecoe } from "src/competencies-ecoe/domain/models/ecoe.entity";
 import { EcoeIdYearDto } from "src/competencies-ecoe/application/dtos/ecoe-id-yearSemester-by-student-id.dto";
 
 @Injectable()
