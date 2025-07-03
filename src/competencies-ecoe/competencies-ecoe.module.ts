@@ -19,6 +19,7 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { ClientsModule, Transport } from '@nestjs/microservices';
 import { GetStudentsWithPendingEcoeByCycleUseCase } from "./application/use-cases/get-students-with-pending-ecoe-by-cycle.use-case";
 import { DeleteEcoeStudentByIdUseCase } from "./application/use-cases/delete-ecoe-student-by-id.use-case";
+import { EvaluateStudentCompetencyUseCase } from "./application/use-cases/evaluate-student-competency.use-case";
 
 @Module({
     imports: [
@@ -62,6 +63,7 @@ import { DeleteEcoeStudentByIdUseCase } from "./application/use-cases/delete-eco
         GetEcoesByCycleCurrentYearUseCase,
         GetStudentsWithPendingEcoeByCycleUseCase,
         DeleteEcoeStudentByIdUseCase,
+        EvaluateStudentCompetencyUseCase,
     ],
 })
 export class CompetenciesEcoeModule { }
