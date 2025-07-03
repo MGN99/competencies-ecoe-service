@@ -1,4 +1,4 @@
-import { Body, ConflictException, Controller, Get, HttpCode, NotFoundException, Param, Post } from '@nestjs/common';
+import { Body, ConflictException, Controller, Delete, Get, HttpCode, NotFoundException, Param, Post } from '@nestjs/common';
 import { AddStudentToEcoeDto } from '../dtos/add-student-to-ecoe.dto';
 import { AddStudentToEcoeUseCase } from 'src/competencies-ecoe/application/use-cases/add-student-to-ecoe.use-case';
 import { StudentAlreadyInEcoeError } from 'src/competencies-ecoe/domain/errors/student-already-in-ecoe.error';
@@ -13,6 +13,9 @@ import { AddEcoeUseCase } from 'src/competencies-ecoe/application/use-cases/add-
 import { AddEcoeDto } from '../dtos/add-ecoe.dto';
 import { GetEcoesByCycleCurrentYearUseCase } from 'src/competencies-ecoe/application/use-cases/get-ecoes-by-cycle-current-year';
 import { GetStudentsWithPendingEcoeByCycleUseCase } from 'src/competencies-ecoe/application/use-cases/get-students-with-pending-ecoe-by-cycle.use-case';
+import { DeleteEcoeStudentByIdUseCase } from 'src/competencies-ecoe/application/use-cases/delete-ecoe-student-by-id.use-case';
+import { DeleteEcoeStudentIdParamDto } from '../dtos/delete-ecoe-student-id.param.dto';
+import { EcoeStudentNotFoundError } from 'src/competencies-ecoe/domain/errors/ecoe-student-not-found.error';
 //import { EcoesLevelNotFoundError } from 'src/competencies-ecoe/domain/errors/ecoes-level-not-found.error';
 //import { EcoeIdDto } from '../dtos/ecoe-id.dto';
 
@@ -26,6 +29,7 @@ export class EcoesController {
         private readonly addEcoeUseCase: AddEcoeUseCase,
         private readonly getEcoesByCycleCurrentYearUseCase: GetEcoesByCycleCurrentYearUseCase,
         private readonly getStudentsWithPendingEcoeByCycleUseCase: GetStudentsWithPendingEcoeByCycleUseCase,
+        private readonly deleteEcoeStudentByIdUseCase: DeleteEcoeStudentByIdUseCase,
     ) { }
 
 
@@ -74,6 +78,20 @@ export class EcoesController {
                 throw new ConflictException(error.message);
             }
 
+            throw error;
+        }
+    }
+
+
+    @Delete('delete-ecoe-student/:id')
+    async deleteEcoeStudent(@Param() param: DeleteEcoeStudentIdParamDto) {
+        try {
+            await this.deleteEcoeStudentByIdUseCase.execute(param.id);
+            return { message: 'Student removed successfully from ECOE' };
+        } catch (error) {
+            if (error instanceof EcoeStudentNotFoundError) {
+                throw new NotFoundException(error.message);
+            }
             throw error;
         }
     }
