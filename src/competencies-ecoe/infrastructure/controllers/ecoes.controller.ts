@@ -124,7 +124,11 @@ export class EcoesController {
     ) {
         try {
             const ecoeStudents = await this.getStudentsWithLastEcoeByEcoeCycleUseCase.execute(data.cycle);
-            return ecoeStudents;
+            const ecoeStudentResponse = ecoeStudents.map(ecoeStudent => {
+                return EcoeStudentMapper.toResponseDto(ecoeStudent);
+            });
+
+            return ecoeStudentResponse;
 
         } catch (error) {
             throw error;
