@@ -4,6 +4,7 @@ import { AddStudentToEcoeCommand } from "../commands/add-student-to-ecoe.command
 import { StudentAlreadyInEcoeError } from "src/competencies-ecoe/domain/errors/student-already-in-ecoe.error";
 import { IEcoeRepositoryOutPort } from "src/competencies-ecoe/domain/repositories/ecoe.repository.out.port";
 import { EcoeNotFoundError } from "src/competencies-ecoe/domain/errors/ecoe-not-found.error";
+import { EcoeStudent } from "src/competencies-ecoe/domain/models/ecoe-student.entity";
 
 @Injectable()
 export class AddStudentToEcoeUseCase {
@@ -27,9 +28,11 @@ export class AddStudentToEcoeUseCase {
             throw new StudentAlreadyInEcoeError(data.studentId);
         }
 
-        await this.ecoeStudentRepo.save(
-            ecoe,
-            data.studentId
+        const newEcoeStudent = new EcoeStudent(
+            data.studentId, 
+            ecoe
         );
+
+        await this.ecoeStudentRepo.save(newEcoeStudent);
     }
 }
