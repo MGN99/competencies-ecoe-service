@@ -8,10 +8,10 @@ import { EcoeMapper } from "./ecoe.mapper";
 export class EcoeStudentMapper {
     static toDomain(entity: EcoeStudentEntityOrm): EcoeStudent {
         return new EcoeStudent(
-            entity.id,
             entity.studentId,
             EcoeMapper.toDomain(entity.ecoe),
-            entity.competenciesEvaluated?.map(StudentCompetencyMapper.toDomain) ?? []
+            entity.competenciesEvaluated?.map(StudentCompetencyMapper.toDomain) ?? [],
+            entity.id,
         );
     }
 
