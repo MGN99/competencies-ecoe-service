@@ -1,15 +1,6 @@
-import { IsEnum, IsNotEmpty } from 'class-validator';
-
-export enum CycleType {
-  BASICO = 'BASICO',
-  PROFESIONAL = 'PROFESIONAL',
-  FINAL = 'FINAL',
-}
+import { IsIn } from "class-validator";
 
 export class GetEcoesByCycleDto {
-    @IsNotEmpty()
-    @IsEnum(CycleType, {
-    message: 'Invalid cycle type',
-    })
-    cycle: CycleType;
+    @IsIn(['BASICO', 'PROFESIONAL', 'FINAL'])
+    cycle: 'BASICO' | 'PROFESIONAL' | 'FINAL';
 }
