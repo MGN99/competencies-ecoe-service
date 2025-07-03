@@ -12,12 +12,12 @@ export class StudentCompetencyMapper {
       throw new Error('StudentCompetencyEntityOrm.competency es undefined');
     }
     return new StudentCompetency(
-      entity.id,
       entity.grade,
       //EcoeStudentMapper.toDomain(entity.ecoeStudent),
       undefined,
       //LevelsCompetencyMapper.toDomain(entity.levelCompetency),
       CompetencyMapper.toDomain(entity.competency),
+      entity.id,
     );
   }
 
