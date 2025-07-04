@@ -36,6 +36,7 @@ export class EcoeStudentMapper {
             //competenciesEvaluatedIds: domain.competenciesEvaluated.map(c => c.id),
             competenciesEvaluated: domain.competenciesEvaluated.map(StudentCompetencyMapper.toResponseDto),
             finalGrade: domain.finalGrade,
+            finalAchievementLevel: domain.finalAchievementLevel,
         };
     }
 }
