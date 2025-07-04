@@ -10,13 +10,12 @@ import { StudentDto } from 'src/competencies-ecoe/application/dtos/student.dto';
 import { GetStudentEcoeYearsUseCase } from 'src/competencies-ecoe/application/use-cases/get-student-ecoe-years.use-case';
 import { GetLevelCompetencyIdsByCompetencyIdUseCase } from 'src/competencies-ecoe/application/use-cases/get-level-competency-ids-by-competency-id.use-case';
 import { GetCompetencyByIdUseCase } from 'src/competencies-ecoe/application/use-cases/get-competency-by-id.use-case';
-import { Ecoe } from 'src/competencies-ecoe/domain/models/ecoe.entity';
-import { EcoeStudent } from 'src/competencies-ecoe/domain/models/ecoe-student.entity';
 import { EcoeStudentMapper } from '../../mappers/ecoe-student.mapper';
+import { DeleteEcoeStudentByStudentIdUseCase } from 'src/competencies-ecoe/application/use-cases/delete-ecoe-student-by-student-id.use-case';
 
 
 @Controller()
-export class CompetenciesMessageController  {
+export class CompetenciesMessageController {
     constructor(
         private readonly getStudentEcoeByStudentIdAndEcoeIdUseCase: GetStudentEcoeByStudentIdAndEcoeIdUseCase,
         private readonly getCompetenciesLevelByIdsUseCase: GetCompetenciesLevelByIdsUseCase,
@@ -24,7 +23,8 @@ export class CompetenciesMessageController  {
         private readonly getStudentEcoeYearsUseCase: GetStudentEcoeYearsUseCase,
         private readonly getLevelCompetencyIdsByCompetencyIdUseCase: GetLevelCompetencyIdsByCompetencyIdUseCase,
         private readonly getCompetencyByIdUseCase: GetCompetencyByIdUseCase,
-    ) {}
+        private readonly deleteEcoeStudentUseCase: DeleteEcoeStudentByStudentIdUseCase
+    ) { }
 
     @MessagePattern(EcoeMessagePatterns.GET_COMPETENCIES_LEVEL_BY_IDS)
     async getCompetenciesLevelByIds(
@@ -57,7 +57,7 @@ export class CompetenciesMessageController  {
     async getStudentEcoeAvgByEcoeId(
         @Payload() data: StudentEcoeByYearDto,
     ) {
-        try{
+        try {
             return await this.getStudentEcoeCompetenciesAvgByEcoeIdUseCase.execute(data);
         } catch (error) {
             throw new RpcException('Error getting student ecoe avg by id');
@@ -96,5 +96,10 @@ export class CompetenciesMessageController  {
         } catch (error) {
             throw new RpcException('Error checking if competency exists');
         }
+    }
+
+    @MessagePattern('ecoe.delete_by_student_id')
+    async deleteByStudentId(@Payload() data: { studentId: string }) {
+        await this.deleteEcoeStudentUseCase.execute(data.studentId);
     }
 }
