@@ -43,9 +43,7 @@ export class CompetenciesMessageController {
         @Payload() data: StudentEcoeByYearDto,
     ) {
         try {
-            console.log('[LOG] Payload recibido en GET_STUDENT_ECOE_BY_ID:', data);
             const studentEcoe = await this.getStudentEcoeByStudentIdAndEcoeIdUseCase.execute(data);
-            console.log(studentEcoe);
             if (!studentEcoe) return {};
             return EcoeStudentMapper.toResponseDto(studentEcoe);
         } catch (error) {

@@ -62,7 +62,6 @@ export class EcoesController {
     async getEcoesByCycleCurrentYear(@Param() data: EcoeCycleNameParamDto): Promise<any> {
         try {
             const ecoes = await this.getEcoesByCycleCurrentYearUseCase.execute(data.cycle);
-            console.log(ecoes);
             return ecoes;
         } catch (error) {
             throw error;
@@ -73,9 +72,7 @@ export class EcoesController {
     @HttpCode(201)
     async addEcoe(@Body() data: AddEcoeDto) {
         try {
-            console.log('Adding ECOE with data:', data);
             const newEcoe = await this.addEcoeUseCase.execute(data);
-            console.log('New ECOE created:', newEcoe);
             return { message: 'ECOE added successfully', ecoe: newEcoe };
 
         }
@@ -122,9 +119,7 @@ export class EcoesController {
     @Get('by-cycle/:cycle')
     async getEcoesByCycle(@Param() data: GetEcoesByCycleDto) {
         try {
-            console.log('Fetching ECOEs for cycle:', data.cycle);
             const ecoes = await this.getEcoesByCycleUseCase.execute(data.cycle);
-            console.log(ecoes);
             return ecoes;
         }
         catch (error) {

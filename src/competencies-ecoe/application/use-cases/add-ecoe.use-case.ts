@@ -24,7 +24,6 @@ export class AddEcoeUseCase {
             throw new EcoeAlreadyExistsError(data.cycle, data.semester, data.year);
         }
 
-        console.log('Creating new ECOE with data:', data);
         const createEcoe = new Ecoe(
             data.name,
             data.cycle,

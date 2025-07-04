@@ -10,7 +10,6 @@ export class GetEcoesByCycleUseCase {
 
     async execute(cycle: 'BASICO' | 'PROFESIONAL' | 'FINAL'): Promise<EcoeLightDto[]> {
         const ecoes = await this.ecoeRepository.findByCycle(cycle);
-        console.log('Ecoes found:', ecoes);
 
         return ecoes.map(ecoe => ({
             id: ecoe.id,

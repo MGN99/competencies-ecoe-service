@@ -21,9 +21,7 @@ export class AddStudentToEcoeUseCase {
             throw new EcoeNotFoundError(data.ecoeId);
         }
 
-        console.log(ecoe);
         const entity = await this.ecoeStudentRepo.findByStudentIdAndEcoeId(data.studentId, data.ecoeId);
-        console.log(entity);
         if (entity) {
             throw new StudentAlreadyInEcoeError(data.studentId);
         }

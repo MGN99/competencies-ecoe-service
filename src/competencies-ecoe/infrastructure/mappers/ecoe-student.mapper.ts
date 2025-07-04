@@ -28,7 +28,6 @@ export class EcoeStudentMapper {
 
     // ver como calcular promedio yeso
     static toResponseDto(domain: EcoeStudent): EcoeStudentResponseDto {
-        console.log('[LOG] Mapper recibe dominio:', domain);
         return {
             id: domain.id,
             studentId: domain.studentId,
