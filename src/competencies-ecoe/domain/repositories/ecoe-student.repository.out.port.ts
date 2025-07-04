@@ -20,5 +20,7 @@ export interface IEcoeStudentRepositoryOutPort {
 
     delete(id: number): Promise<void>;
 
+    deleteAllByStudentId(studentId: string): Promise<void>;
+
     //findByStudentId(studentId: string): Promise<EcoeStudent[]>;
 }
