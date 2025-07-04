@@ -22,7 +22,7 @@ import { AlreadyCompetencyEvaluatedError } from 'src/competencies-ecoe/domain/er
 import { CompetencyNotFoundError } from 'src/competencies-ecoe/domain/errors/competency-not-found.error';
 import { EcoeCycleNameParamDto } from '../dtos/ecoe-cycle-name.param.dto';
 import { GetStudentsWithLastEcoeByEcoeCycleUseCase } from 'src/competencies-ecoe/application/use-cases/get-students-with-last-ecoe-by-cycle.usecase';
-import e from 'express';
+import { GetEcoesUseCase } from 'src/competencies-ecoe/application/use-cases/get-ecoes.use-case';
 //import { EcoesLevelNotFoundError } from 'src/competencies-ecoe/domain/errors/ecoes-level-not-found.error';
 //import { EcoeIdDto } from '../dtos/ecoe-id.dto';
 
@@ -39,8 +39,24 @@ export class EcoesController {
         private readonly deleteEcoeStudentByIdUseCase: DeleteEcoeStudentByIdUseCase,
         private readonly evaluateStudentCompetencyUseCase: EvaluateStudentCompetencyUseCase,
         private readonly getStudentsWithLastEcoeByEcoeCycleUseCase: GetStudentsWithLastEcoeByEcoeCycleUseCase,
+        private readonly getEcoesUseCase: GetEcoesUseCase
     ) { }
 
+    @Get()
+    async getEcoes() {
+        try {
+            const ecoes = await this.getEcoesUseCase.execute();
+            return ecoes.map(ecoe => ({
+                id: ecoe.id,
+                name: ecoe.name,
+                cycle: ecoe.cycle,
+                semester: ecoe.semester,
+                year: ecoe.year,
+            }));
+        } catch (error) {
+            throw error;
+        }
+    }
 
     @Get('by-cycle-current-year/:cycle')
     async getEcoesByCycleCurrentYear(@Param() data: EcoeCycleNameParamDto): Promise<any> {
@@ -52,7 +68,6 @@ export class EcoesController {
             throw error;
         }
     }
-
 
     @Post('add-ecoe')
     @HttpCode(201)
@@ -90,7 +105,6 @@ export class EcoesController {
             throw error;
         }
     }
-
 
     @Delete('ecoe-student/:id')
     async deleteEcoeStudent(@Param() param: DeleteEcoeStudentIdParamDto) {
