@@ -22,6 +22,7 @@ import { DeleteEcoeStudentByIdUseCase } from "./application/use-cases/delete-eco
 import { EvaluateStudentCompetencyUseCase } from "./application/use-cases/evaluate-student-competency.use-case";
 import { GetStudentsWithLastEcoeByEcoeCycleUseCase } from "./application/use-cases/get-students-with-last-ecoe-by-cycle.usecase";
 import { GetEcoesUseCase } from "./application/use-cases/get-ecoes.use-case";
+import { DeleteEcoeStudentByStudentIdUseCase } from "./application/use-cases/delete-ecoe-student-by-student-id.use-case";
 
 @Module({
     imports: [
@@ -68,6 +69,7 @@ import { GetEcoesUseCase } from "./application/use-cases/get-ecoes.use-case";
         EvaluateStudentCompetencyUseCase,
         GetStudentsWithLastEcoeByEcoeCycleUseCase,
         GetEcoesUseCase,
+        DeleteEcoeStudentByStudentIdUseCase,
     ],
 })
 export class CompetenciesEcoeModule { }
