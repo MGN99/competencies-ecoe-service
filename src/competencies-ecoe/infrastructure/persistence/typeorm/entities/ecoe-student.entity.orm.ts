@@ -1,10 +1,10 @@
 import {
     Column,
     Entity,
-    JoinColumn,
     ManyToOne,
     OneToMany,
     PrimaryGeneratedColumn,
+    JoinColumn,
 } from "typeorm";
 import { StudentCompetencyEntityOrm } from "./student-competency.entity.orm";
 import { EcoeEntityOrm } from "./ecoe.entity.orm";
@@ -17,7 +17,7 @@ export class EcoeStudentEntityOrm {
     @Column({ name: 'student_id' })
     studentId: string;
 
-    @ManyToOne(() => EcoeEntityOrm, ecoe => ecoe.students)
+    @ManyToOne(() => EcoeEntityOrm, ecoe => ecoe.students, { onDelete: 'CASCADE' })
     @JoinColumn({ name: 'ecoe_id' })
     ecoe: EcoeEntityOrm;
 
@@ -25,6 +25,5 @@ export class EcoeStudentEntityOrm {
         cascade: true,
         eager: true,
     })
-    @JoinColumn({ name: 'competencies_evaluated' })
     competenciesEvaluated: StudentCompetencyEntityOrm[];
 }
