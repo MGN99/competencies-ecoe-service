@@ -140,4 +140,8 @@ export class EcoeStudentRepositoryImpl implements IEcoeStudentRepositoryOutPort 
     async delete(id: number): Promise<void> {
         await this.ormRepo.delete(id);
     }
+
+    async deleteAllByStudentId(studentId: string): Promise<void> {
+        await this.ormRepo.delete({ studentId });
+    }
 }
