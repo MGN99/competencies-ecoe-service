@@ -11,5 +11,5 @@ export class EcoeStudentResponseDto {
         achievementLevel: string;
     }[];
     finalGrade: number;
-
+    finalAchievementLevel: string;
 }
